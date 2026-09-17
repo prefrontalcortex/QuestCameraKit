@@ -1,9 +1,10 @@
 # Puppet Tracking – Signaling Server
 
-Step 1 of the puppet/skeleton-tracking prototype: a minimal server that relays WebRTC
-signaling between the Quest 3 (`7 PuppetTracking` sample) and a browser, and a web page
-that displays the incoming passthrough video. No pose/skeleton AI yet — this only proves
-the video signal makes it from the headset to a viewer on the LAN.
+A minimal server that relays WebRTC signaling between the Quest 3 (`7 PuppetTracking`
+sample) and a browser, and a web page that displays the incoming passthrough video. The
+browser page also runs pose detection on that video (MediaPipe Tasks Vision, in-browser)
+and sends the detected 2D skeleton back to the Quest over the WebRTC data channel, where
+it's rendered as a 3D AR overlay on the real puppet — see "Pose detection" below.
 
 ## Why this server, and not the digicare one
 
@@ -70,6 +71,30 @@ any — e.g. a `VideoStreamTrack` format-mismatch exception). Useful because the
 never passes through this server — WebRTC media goes peer-to-peer directly between the
 Quest and the browser, so this server's console only ever shows signaling messages
 (`NEWPEER`, `OFFER`, `ANSWER`, `CANDIDATE`, ...), never the video itself.
+
+## Pose detection
+
+Check **Enable pose detection** in the browser page once video is flowing. It loads
+MediaPipe Tasks Vision's Pose Landmarker (~17MB, once) and runs it against the `<video>`
+element entirely client-side — no CDN dependency, since the WASM runtime is served
+straight from `node_modules` and the model file is fetched once via `npm run postinstall`
+(`scripts/download-assets.js`) into `public/models/` (gitignored, not committed).
+
+Enter the puppet's **shoulder-to-hip length in cm** (measure the real puppet) in the field
+below the toggle — the Quest uses it to estimate camera-to-puppet distance from the
+apparent angle between the detected shoulder and hip landmarks (`PuppetPoseVisualizer.cs`),
+then ray-casts every landmark through `PassthroughCameraAccess.ViewportPointToRay` at that
+one estimated distance. This places the skeleton at roughly the right position and size on
+the real puppet, but flattens it: every landmark lands at the same distance from the
+camera, so there's no per-limb depth (an arm reaching toward the camera won't appear to
+come forward). Real volumetric placement (via MediaPipe's `worldLandmarks` offsets around a
+single anchor) is a natural follow-up once this flat version is validated.
+
+Detected landmarks are sent over the data channel the Quest already creates
+(`PassthroughWebRTCStreamer.cs`, `createDataChannel`), throttled to ~15Hz, as JSON:
+`{ "type": "pose", "referenceLengthCm": ..., "landmarks": [{ "x", "y", "visibility" }, ...] }`
+(33 entries, MediaPipe's normalized image-space coordinates — top-left origin, y grows
+downward).
 
 ## Health check
 

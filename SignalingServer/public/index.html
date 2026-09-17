@@ -152,7 +152,7 @@
 <body>
   <header>
     <h1>Puppet Tracking – Signal Viewer</h1>
-    <p>Receives the Quest 3 passthrough video over WebRTC and can run pose detection on it in-browser to preview a skeleton before anything is sent back to the headset.</p>
+    <p>Receives the Quest 3 passthrough video over WebRTC, runs pose detection on it in-browser, and sends the detected 2D skeleton back to the headset over the WebRTC data channel for a 3D AR overlay on the real puppet.</p>
   </header>
   <main>
     <section class="panel">
@@ -168,6 +168,9 @@
         <input type="checkbox" id="poseToggle" />
         <label for="poseToggle" style="margin: 0;">Enable pose detection (experimental, runs locally in this browser)</label>
       </div>
+
+      <label for="referenceLength">Puppet shoulder-to-hip length (cm) — measure the real puppet; used on the Quest to estimate distance</label>
+      <input id="referenceLength" type="text" inputmode="decimal" value="20" />
     </section>
 
     <section class="panel">

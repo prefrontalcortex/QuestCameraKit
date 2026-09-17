@@ -113,14 +113,37 @@ See the [signaling setup tutorial](https://www.youtube.com/watch?v=-CwJTgt_Z3M).
 
 ### 7. Puppet tracking (video signal check)
 
-First step of an XR Skillslab prototype that will eventually track a physical puppet's skeleton via passthrough and drive a bone rig from it. This sample only proves the video path, streaming the passthrough camera directly into a `Unity.WebRTC` `VideoStreamTrack` via `PassthroughWebRTCStreamer` + `PassthroughCameraAccess` (no pose/skeleton computation yet, and no SimpleWebRTC — an earlier version of this sample used the `6 WebRTC` sample's SimpleWebRTC package, but its "camera photographs a UI canvas" capture path never produced a reliable image).
+An XR Skillslab prototype tracking a physical puppet's skeleton via passthrough, eventually to drive a bone rig from it. Streams the passthrough camera directly into a `Unity.WebRTC` `VideoStreamTrack` via `PassthroughWebRTCStreamer` + `PassthroughCameraAccess` (no SimpleWebRTC — an earlier version of this sample used the `6 WebRTC` sample's SimpleWebRTC package, but its "camera photographs a UI canvas" capture path never produced a reliable image).
 
 1. Start the signaling server in [`SignalingServer`](SignalingServer) (`npm install && npm start`) and note the machine's LAN IP.
 2. In `PuppetTracking-Quest`, set `signalingServerUrl` on the `PassthroughWebRTCStreamer` component to `ws://<that-lan-ip>:3000`.
 3. Run `PuppetTracking-Quest` on the headset, aim it at the puppet, and open `http://<that-lan-ip>:3000` in a browser on the same network, then click **Connect**.
 4. No manual "start transmission" step is needed — the live passthrough image should appear automatically in the browser viewer once the camera is playing and the browser has registered.
+5. Check **Enable pose detection** in the browser and enter the puppet's shoulder-to-hip length (cm) — the detected skeleton is sent back over the WebRTC data channel and drawn as a 3D overlay on the real puppet by `PuppetPoseVisualizer`.
 
-See [`SignalingServer/README.md`](SignalingServer/README.md) for protocol details and troubleshooting.
+See [`SignalingServer/README.md`](SignalingServer/README.md) for protocol details, troubleshooting, and how the browser-side pose detection + placement math works.
+
+#### On-device pose experiment (skip the WebRTC round-trip)
+
+`OnDeviceBlazePoseDetector` runs the same pose model **directly on the Quest**, feeding the
+same `PuppetPoseVisualizer` without any PC/browser in the loop — disabled by default on the
+"WebRTC Controller" GameObject so it can be compared side-by-side with the WebRTC path
+rather than replacing it outright. It uses Google's BlazePose converted to ONNX by Unity
+(the same model MediaPipe's browser-side PoseLandmarker runs), via `com.unity.ai.inference`
+— ported from Unity's own [sentis-samples BlazeDetectionSample](https://github.com/Unity-Technologies/sentis-samples/tree/main/BlazeDetectionSample/Pose).
+
+The three model files (~21MB total) aren't committed — download them once into
+`Unity-QuestVisionKit/Assets/Samples/7 PuppetTracking/Resources/Models/`:
+
+```sh
+curl -L -o pose_detection.onnx "https://huggingface.co/unity/inference-engine-blaze-pose/resolve/main/models/pose_detection.onnx"
+curl -L -o pose_landmarks_detector_lite.onnx "https://huggingface.co/unity/inference-engine-blaze-pose/resolve/main/models/pose_landmarks_detector_lite.onnx"
+curl -L -o anchors.csv "https://huggingface.co/unity/inference-engine-blaze-pose/resolve/main/data/anchors.csv"
+```
+
+Then enable `OnDeviceBlazePoseDetector` (and disable `PassthroughWebRTCStreamer`'s data
+channel consumer if comparing head-to-head) and check the in-headset framerate — this is
+the open question the experiment is meant to answer, not yet validated on real hardware.
 
 ## Dependencies
 

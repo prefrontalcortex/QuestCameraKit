@@ -141,3 +141,12 @@ Assets/XR/Temp.meta
 .quak/machines.local.json
 .quak/packages/
 .quak/venv/
+
+# BlazePose on-device model assets (~21MB) - fetched separately instead of committed, see
+# SignalingServer/README.md for the download URLs. Their .meta files are excluded too
+# (overriding the blanket "!*.meta" rule above) since Unity regenerates them locally on
+# next import and a tracked meta with no matching asset is just confusing.
+Assets/Samples/7 PuppetTracking/Resources/Models/*.onnx
+Assets/Samples/7 PuppetTracking/Resources/Models/*.onnx.meta
+Assets/Samples/7 PuppetTracking/Resources/Models/anchors.csv
+Assets/Samples/7 PuppetTracking/Resources/Models/anchors.csv.meta

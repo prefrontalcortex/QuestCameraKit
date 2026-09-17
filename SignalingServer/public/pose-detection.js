@@ -27,9 +27,10 @@ export class PoseOverlay {
     this.loop = this.loop.bind(this);
   }
 
-  async start(onLog) {
+  async start(onLog, onResult) {
     if (this.running) return;
     this.running = true;
+    this.onResult = onResult;
 
     const { PoseLandmarker, FilesetResolver, DrawingUtils } = await loadVisionModule();
     onLog?.('Loading pose model...');
@@ -88,5 +89,8 @@ export class PoseOverlay {
       this.drawingUtils.drawConnectors(landmarks, this.poseConnections, { color: '#5b8cff', lineWidth: 3 });
       this.drawingUtils.drawLandmarks(landmarks, { color: '#ffffff', fillColor: '#ffffff', radius: 3 });
     }
+
+    // Only the first detected pose is forwarded - numPoses is 1 anyway (see createFromOptions above).
+    if (result.landmarks[0]) this.onResult?.(result.landmarks[0]);
   }
 }

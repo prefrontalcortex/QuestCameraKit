@@ -14,6 +14,7 @@ const playBtn = document.getElementById('playBtn');
 const statsOverlayEl = document.getElementById('statsOverlay');
 const poseCanvasEl = document.getElementById('poseCanvas');
 const poseToggleEl = document.getElementById('poseToggle');
+const referenceLengthInput = document.getElementById('referenceLength');
 const serverUrlInput = document.getElementById('serverUrl');
 const peerIdInput = document.getElementById('peerId');
 const connectBtn = document.getElementById('connectBtn');
@@ -29,6 +30,9 @@ let reconnectDelay = RECONNECT_MIN_DELAY_MS;
 let reconnectTimer = null;
 let statsTimer = null;
 let poseOverlay = null; // lazily created PoseOverlay instance (see pose-detection.js)
+let activeDataChannel = null; // last data channel handed to us via ondatachannel - the Quest creates it
+let lastPoseSendTime = 0;
+const POSE_SEND_INTERVAL_MS = 66; // ~15Hz - plenty for a visualization, keeps the channel light
 const peerConnections = new Map();
 
 serverUrlInput.value = `ws://${location.hostname}:${location.port || 3000}`;
@@ -119,7 +123,11 @@ function ensurePeerConnection(peerId) {
 
   pc.ondatachannel = (event) => {
     log(`Data channel from ${peerId} opened`);
+    activeDataChannel = event.channel;
     event.channel.onmessage = (e) => log(`[data:${peerId}] ${e.data}`);
+    event.channel.onclose = () => {
+      if (activeDataChannel === event.channel) activeDataChannel = null;
+    };
   };
 
   return pc;
@@ -270,6 +278,7 @@ function disconnect() {
 
   for (const pc of peerConnections.values()) pc.close();
   peerConnections.clear();
+  activeDataChannel = null;
 
   videoEl.srcObject = null;
   placeholderEl.hidden = false;
@@ -313,7 +322,7 @@ poseToggleEl.addEventListener('change', async () => {
       const { PoseOverlay } = await import('./pose-detection.js');
       poseOverlay = new PoseOverlay(videoEl, poseCanvasEl);
     }
-    await poseOverlay.start(log);
+    await poseOverlay.start(log, sendPoseToQuest);
   } catch (err) {
     log(`Pose detection failed to start: ${err.message}`, 'err');
     poseToggleEl.checked = false;
@@ -321,3 +330,26 @@ poseToggleEl.addEventListener('change', async () => {
     poseToggleEl.disabled = false;
   }
 });
+
+// Forwards the detected 2D skeleton to the Quest over the WebRTC data channel it
+// created (see PassthroughWebRTCStreamer.cs), throttled to ~15Hz. The Quest turns
+// this into a 3D AR overlay by estimating distance from the reference length below
+// and ray-casting each point through its own passthrough camera model - see
+// PuppetPoseVisualizer.cs for the placement math this payload feeds.
+function sendPoseToQuest(landmarks) {
+  if (!activeDataChannel || activeDataChannel.readyState !== 'open') return;
+
+  const now = performance.now();
+  if (now - lastPoseSendTime < POSE_SEND_INTERVAL_MS) return;
+  lastPoseSendTime = now;
+
+  const referenceLengthCm = parseFloat(referenceLengthInput.value);
+  if (!Number.isFinite(referenceLengthCm) || referenceLengthCm <= 0) return;
+
+  const payload = {
+    type: 'pose',
+    referenceLengthCm,
+    landmarks: landmarks.map((l) => ({ x: l.x, y: l.y, visibility: l.visibility ?? 1 })),
+  };
+  activeDataChannel.send(JSON.stringify(payload));
+}

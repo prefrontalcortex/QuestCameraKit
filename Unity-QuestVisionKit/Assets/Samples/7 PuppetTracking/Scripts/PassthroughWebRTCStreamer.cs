@@ -43,6 +43,12 @@ namespace QuestCameraKit.WebRTC {
 
         public event Action OnStateChanged;
 
+        // Fired for every message received on any peer's data channel (peerId, payload).
+        // Raised directly from RTCDataChannel.OnMessage, which - like every Unity.WebRTC
+        // callback - can run off the main thread, so subscribers must not touch Unity APIs
+        // directly from this event; marshal to Update()/a coroutine instead.
+        public event Action<string, string> OnDataChannelMessage;
+
         private sealed class PeerSession {
             public string PeerId;
             public RTCPeerConnection Connection;
@@ -204,6 +210,9 @@ namespace QuestCameraKit.WebRTC {
 
             if (createDataChannel) {
                 session.DataChannel = session.Connection.CreateDataChannel("puppet");
+                session.DataChannel.OnMessage = bytes => {
+                    OnDataChannelMessage?.Invoke(peerId, System.Text.Encoding.UTF8.GetString(bytes));
+                };
             }
 
             _sessions[peerId] = session;

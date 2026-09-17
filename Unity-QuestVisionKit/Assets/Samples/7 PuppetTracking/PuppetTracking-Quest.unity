@@ -176,14 +176,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -593,6 +593,7 @@ SkinnedMeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
@@ -882,7 +883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &700243924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -951,6 +952,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &700243926
 MeshFilter:
@@ -1417,6 +1419,7 @@ SkinnedMeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
@@ -1886,6 +1889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monoscopic: 0
   _sharpenType: 0
+  _disableRecording: 0
   _enableDynamicResolution: 1
   minDynamicResolutionScale: 1
   maxDynamicResolutionScale: 1
@@ -1897,8 +1901,13 @@ MonoBehaviour:
   maxRenderScale: 1
   _headPoseRelativeOffsetRotation: {x: 0, y: 0, z: 0}
   _headPoseRelativeOffsetTranslation: {x: 0, y: 0, z: 0}
-  profilerTcpPort: 32419
-  expandMixedRealityCapturePropertySheet: 0
+  enableCoreMetricsRelease: 0
+  enableCoreMetricsDevelopment: 1
+  coreMetricVisibility:
+    visibleMemoryMetricStats: 0
+    visibleMemoryMetricGraphs: 0
+    visibleRenderMetricStats: 0
+    visibleRenderMetricGraphs: 0
   enableMixedReality: 0
   compositionMethod: 0
   extraHiddenLayers:
@@ -1952,6 +1961,8 @@ MonoBehaviour:
   SimultaneousHandsAndControllersEnabled: 0
   _readOnlyWideMotionModeHandPosesEnabled: 0
   wideMotionModeHandPosesEnabled: 0
+  _readOnlyFastMotionModeHandPosesEnabled: 0
+  fastMotionModeHandPosesEnabled: 0
   dynamicResolutionVersion: 1
 --- !u!114 &1487479719
 MonoBehaviour:
@@ -2143,6 +2154,8 @@ GameObject:
   - component: {fileID: 1731017030}
   - component: {fileID: 1731017031}
   - component: {fileID: 1731017032}
+  - component: {fileID: 1731017033}
+  - component: {fileID: 1731017034}
   m_Layer: 0
   m_Name: WebRTC Controller
   m_TagString: Untagged
@@ -2175,8 +2188,8 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7d9cb92af9ba954882ecb0647c1b74d, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   cameraAccess: {fileID: 1731017030}
   canvasRawImage: {fileID: 557677174}
   connectionGameObject: {fileID: 805715864782633738}
@@ -2199,8 +2212,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: meta.xr.mrutilitykit::Meta.XR.PassthroughCameraAccess
   CameraPosition: 0
   RequestedResolution: {x: 1280, y: 960}
+  _maxFramerate: 60
   TargetMaterial: {fileID: 0}
-  _texturePropertyName:
+  _texturePropertyName: 
 --- !u!114 &1731017031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2211,8 +2225,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40a403882fc3ca1a651bf685998ca135, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   cameraAccess: {fileID: 1731017030}
   streamer: {fileID: 1731017032}
   refreshInterval: 0.25
@@ -2226,8 +2240,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8350ecea21e229c005598fa31e1b96c, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   cameraAccess: {fileID: 1731017030}
   streamResolution: {x: 0, y: 0}
   flipVertically: 0
@@ -2240,6 +2254,42 @@ MonoBehaviour:
   stunServerUrl: stun:stun.l.google.com:19302
   createDataChannel: 1
   deadPeerTimeoutSeconds: 20
+--- !u!114 &1731017033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731017027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ce8c52890e3fa8232a72bb8c5970cf, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  cameraAccess: {fileID: 1731017030}
+  streamer: {fileID: 1731017032}
+  jointRadius: 0.01
+  lineWidth: 0.006
+  minVisibility: 0.3
+  skeletonColor: {r: 0.36, g: 0.55, b: 1, a: 1}
+--- !u!114 &1731017034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731017027}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93164191637396e0e45325d1e8f67b56, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  cameraAccess: {fileID: 1731017030}
+  visualizer: {fileID: 1731017033}
+  referenceLengthCm: 20
+  scoreThreshold: 0.75
+  backend: 256
+  flipY: 0
 --- !u!1 &1883890013
 GameObject:
   m_ObjectHideFlags: 0
