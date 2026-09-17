@@ -84,6 +84,22 @@
       color: #cfe0ff;
       pointer-events: none;
     }
+    .pose-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .checkbox-row input { width: 16px; height: 16px; }
     label { display: block; margin: 10px 0 4px; color: var(--muted); font-size: 12px; }
     input[type="text"] {
       width: 100%;
@@ -136,16 +152,22 @@
 <body>
   <header>
     <h1>Puppet Tracking – Signal Viewer</h1>
-    <p>Receives the Quest 3 passthrough video over WebRTC (SimpleWebRTC signaling) so the raw camera signal can be checked before any pose/skeleton AI is added.</p>
+    <p>Receives the Quest 3 passthrough video over WebRTC and can run pose detection on it in-browser to preview a skeleton before anything is sent back to the headset.</p>
   </header>
   <main>
     <section class="panel">
       <div class="video-wrap">
         <video id="video" autoplay playsinline muted></video>
+        <canvas id="poseCanvas" class="pose-canvas"></canvas>
         <div id="placeholder" class="video-placeholder">No stream yet – connect and start transmission on the Quest.</div>
         <div id="statsOverlay" class="stats-overlay" hidden></div>
       </div>
       <button id="playBtn" class="secondary" style="margin-top: 10px;" hidden>Tap to play video</button>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="poseToggle" />
+        <label for="poseToggle" style="margin: 0;">Enable pose detection (experimental, runs locally in this browser)</label>
+      </div>
     </section>
 
     <section class="panel">

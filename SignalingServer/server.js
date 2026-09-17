@@ -7,6 +7,16 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Served straight from node_modules instead of vendoring a copy into public/ -
+// these are the MediaPipe Tasks Vision WASM runtime files (~35MB across the
+// SIMD/non-SIMD variants), already present after `npm install`.
+app.use('/vendor/mediapipe/wasm', express.static(
+  path.join(__dirname, 'node_modules', '@mediapipe', 'tasks-vision', 'wasm')
+));
+app.use('/vendor/mediapipe/vision_bundle.mjs', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'node_modules', '@mediapipe', 'tasks-vision', 'vision_bundle.mjs'));
+});
+
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', clients: clients.size });
 });

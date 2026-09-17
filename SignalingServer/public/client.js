@@ -12,6 +12,8 @@ const videoEl = document.getElementById('video');
 const placeholderEl = document.getElementById('placeholder');
 const playBtn = document.getElementById('playBtn');
 const statsOverlayEl = document.getElementById('statsOverlay');
+const poseCanvasEl = document.getElementById('poseCanvas');
+const poseToggleEl = document.getElementById('poseToggle');
 const serverUrlInput = document.getElementById('serverUrl');
 const peerIdInput = document.getElementById('peerId');
 const connectBtn = document.getElementById('connectBtn');
@@ -26,6 +28,7 @@ let wantsConnection = false;
 let reconnectDelay = RECONNECT_MIN_DELAY_MS;
 let reconnectTimer = null;
 let statsTimer = null;
+let poseOverlay = null; // lazily created PoseOverlay instance (see pose-detection.js)
 const peerConnections = new Map();
 
 serverUrlInput.value = `ws://${location.hostname}:${location.port || 3000}`;
@@ -263,6 +266,7 @@ function disconnect() {
   wantsConnection = false;
   clearTimeout(reconnectTimer);
   stopStatsLoop();
+  poseOverlay?.stop();
 
   for (const pc of peerConnections.values()) pc.close();
   peerConnections.clear();
@@ -295,4 +299,25 @@ disconnectBtn.addEventListener('click', disconnect);
 playBtn.addEventListener('click', () => {
   videoEl.play();
   playBtn.hidden = true;
+});
+
+poseToggleEl.addEventListener('change', async () => {
+  if (!poseToggleEl.checked) {
+    poseOverlay?.stop();
+    return;
+  }
+
+  poseToggleEl.disabled = true;
+  try {
+    if (!poseOverlay) {
+      const { PoseOverlay } = await import('./pose-detection.js');
+      poseOverlay = new PoseOverlay(videoEl, poseCanvasEl);
+    }
+    await poseOverlay.start(log);
+  } catch (err) {
+    log(`Pose detection failed to start: ${err.message}`, 'err');
+    poseToggleEl.checked = false;
+  } finally {
+    poseToggleEl.disabled = false;
+  }
 });
