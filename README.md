@@ -142,8 +142,41 @@ curl -L -o anchors.csv "https://huggingface.co/unity/inference-engine-blaze-pose
 ```
 
 Then enable `OnDeviceBlazePoseDetector` (and disable `PassthroughWebRTCStreamer`'s data
-channel consumer if comparing head-to-head) and check the in-headset framerate — this is
-the open question the experiment is meant to answer, not yet validated on real hardware.
+channel consumer if comparing head-to-head).
+
+**Status as of the last real-device round of testing:** detection reliability is the open
+problem, not raw framerate. Findings so far, roughly in the order we found them:
+
+- The unmodified ported sample re-ran the full-frame person detector every single frame; a
+  small/hand-held subject only fills a tiny fraction of the passthrough camera's wide field
+  of view, so it almost never scored above the detection threshold. Fixed by reusing the
+  landmark model's own two alignment keypoints (indices 33/34 of its 39-point output) to
+  derive next frame's crop directly, only falling back to the full detector when that
+  tracking confidence drops (`OnDeviceBlazePoseDetector.minTrackingConfidence`) — this is
+  the same trick MediaPipe's own runtime uses to stay locked on across frames.
+- `scoreThreshold` defaulted to Unity's sample value (0.75); MediaPipe Tasks Vision's own
+  default (which the browser path benefits from without ever overriding it) is 0.5 — fixed.
+- The detector padded the frame out to a square instead of cropping to the shorter side,
+  wasting a third of its 224×224 input on empty letterbox bars — fixed by cropping instead
+  (loses some peripheral FOV, trades it for effective resolution on the subject).
+- Even after all of the above, a **130cm child at ~2m** (a proper human-scale subject, not a
+  puppet) still frequently failed to detect — meaning the remaining gap likely isn't only
+  about subject scale anymore, but also basic recall of the single-highest-anchor argmax
+  detector versus a real NMS/multi-candidate approach. Not yet attempted.
+- Skeleton *jitter* (once detected) is a separate axis from detection *reliability* -
+  addressed with a 1€ filter per landmark (`PuppetPoseVisualizer`, see `OneEuroFilter.cs`),
+  tuned toward heavy, non-adaptive smoothing since the tracked subjects here (mannequins) do
+  not move on their own - any apparent velocity in the raw signal is detection noise, not
+  real motion worth staying responsive to.
+- `PuppetTrackingStatusHud` now shows the on-device detector's live state (`Mode`:
+  Detecting/Tracking, last detection score, last tracking confidence) in-headset, since
+  "sometimes visible, sometimes not" was otherwise impossible to debug further - failing to
+  ever detect and losing an acquired track too eagerly look identical from the outside but
+  need different fixes.
+- Not yet tested: a full-size mannequin (the actual target hardware for this prototype,
+  distinct from the small hand-held test dummies) - plausibly closer to BlazePose's training
+  distribution at a normal viewing distance, which would make the remaining detector-recall
+  question moot for that specific case even if it isn't fixed in general.
 
 ## Dependencies
 

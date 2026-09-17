@@ -9,6 +9,7 @@ namespace QuestCameraKit.WebRTC {
     public class PuppetTrackingStatusHud : MonoBehaviour {
         [SerializeField] private PassthroughCameraAccess cameraAccess;
         [SerializeField] private PassthroughWebRTCStreamer streamer;
+        [SerializeField] private OnDeviceBlazePoseDetector onDeviceDetector;
         [SerializeField] private float refreshInterval = 0.25f;
 
         private Text _statusText;
@@ -22,6 +23,9 @@ namespace QuestCameraKit.WebRTC {
             if (!streamer) {
                 streamer = FindAnyObjectByType<PassthroughWebRTCStreamer>(FindObjectsInactive.Include);
             }
+            if (!onDeviceDetector) {
+                onDeviceDetector = FindAnyObjectByType<OnDeviceBlazePoseDetector>(FindObjectsInactive.Include);
+            }
 
             BuildHud();
         }
@@ -31,7 +35,7 @@ namespace QuestCameraKit.WebRTC {
             var canvas = canvasGo.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
             var canvasRect = canvasGo.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = new Vector2(420, 170);
+            canvasRect.sizeDelta = new Vector2(460, 210);
             canvasGo.transform.localScale = Vector3.one * 0.001f;
             _hudTransform = canvasGo.transform;
 
@@ -92,11 +96,16 @@ namespace QuestCameraKit.WebRTC {
                     : streamer.IsStreaming ? $"on {streamer.StreamResolution.x}x{streamer.StreamResolution.y}" : "idle";
             }
 
+            var onDeviceLine = onDeviceDetector && onDeviceDetector.enabled
+                ? $"\nOn-device: {onDeviceDetector.Mode} (det {onDeviceDetector.LastDetectionScore:F2}, track {onDeviceDetector.LastTrackingConfidence:F2})"
+                : "";
+
             _statusText.text =
                 $"Passthrough camera: {cameraState}\n" +
                 $"Signaling (WS): {socketState}\n" +
                 $"WebRTC peers: {peerState}\n" +
                 $"Video TX: {videoState}" +
+                onDeviceLine +
                 (streamer && !string.IsNullOrEmpty(streamer.LastError) ? $"\n<error> {streamer.LastError}" : "");
         }
     }

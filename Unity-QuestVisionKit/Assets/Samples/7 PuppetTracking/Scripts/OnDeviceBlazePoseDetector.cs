@@ -25,14 +25,39 @@ namespace QuestCameraKit.WebRTC {
         [SerializeField] private PassthroughCameraAccess cameraAccess;
         [SerializeField] private PuppetPoseVisualizer visualizer;
         [SerializeField] private float referenceLengthCm = 20f;
-        [SerializeField] private float scoreThreshold = 0.75f;
+        // MediaPipe Tasks Vision's own PoseLandmarker defaults minPoseDetectionConfidence to
+        // 0.5 (our browser-side pose-detection.js never overrides it) - Unity's reference
+        // sample this class is ported from used a much stricter 0.75, which was silently
+        // making the on-device path harder to trigger than the browser path it's compared
+        // against for no reason related to the puppet itself.
+        [SerializeField] private float scoreThreshold = 0.5f;
         [SerializeField] private BackendType backend = BackendType.GPUCompute;
 
-        // BlazePose's "image space" output (see ApplyLandmarks below) is expected to already
-        // match PassthroughCameraAccess's viewport convention (origin bottom-left, y up), the
+        // Once a pose is found, later frames skip the person detector entirely and derive the
+        // next crop directly from the landmark model's own two alignment keypoints (indices 33
+        // and 34, beyond the 33 body joints - see https://arxiv.org/pdf/2006.10204) - this is
+        // what MediaPipe's own runtime does to stay stable across frames, and the ported
+        // reference sample this class is based on skipped:
+        // it re-ran the full-frame detector every single frame, which is both slower and far
+        // less reliable at typical distances since a puppet (unlike a framed photo of a person)
+        // only fills a small fraction of the passthrough camera's wide field of view.
+        [SerializeField] private float minTrackingConfidence = 0.5f;
+
+        // BlazePose's "image space" output (see the landmark loop in DetectOnce below) is
+        // expected to already match PassthroughCameraAccess's viewport convention (origin
+        // bottom-left, y up), the
         // opposite of MediaPipe's browser-side output - flip this if the on-device skeleton
         // comes out upside down, rather than re-deriving the convention from scratch.
         [SerializeField] private bool flipY;
+
+        // Exposed so PuppetTrackingStatusHud can show what the pipeline is actually doing right
+        // now - without this, "sometimes visible, sometimes not" is impossible to debug further:
+        // failing to ever detect (LastDetectionScore never crosses scoreThreshold) and losing an
+        // acquired track too eagerly (LastTrackingConfidence dropping below minTrackingConfidence)
+        // look identical from the outside but need very different fixes.
+        public string Mode { get; private set; } = "Idle";
+        public float LastDetectionScore { get; private set; }
+        public float LastTrackingConfidence { get; private set; }
 
         private const int NumAnchors = 2254;
         private const int NumKeypoints = 33;
@@ -46,6 +71,10 @@ namespace QuestCameraKit.WebRTC {
         private Tensor<float> _landmarkerInput;
         private Awaitable _detectLoop;
         private PuppetPoseVisualizer.Landmark[] _landmarks;
+
+        private bool _isTracking;
+        private float2 _trackedKp1ImageSpace;
+        private float2 _trackedKp2ImageSpace;
 
         private async void Start() {
             if (!cameraAccess) {
@@ -113,36 +142,25 @@ namespace QuestCameraKit.WebRTC {
 
             var width = texture.width;
             var height = texture.height;
-            var size = Mathf.Max(width, height);
 
-            // The affine transformation matrix to go from detector-tensor coordinates to
-            // image coordinates.
-            var scale = size / (float)DetectorInputSize;
-            var m = BlazePoseUtils.mul(
-                BlazePoseUtils.TranslationMatrix(0.5f * (new float2(width, height) + new float2(-size, size))),
-                BlazePoseUtils.ScaleMatrix(new float2(scale, -scale)));
-            BlazePoseUtils.SampleImageAffine(texture, _detectorInput, m);
-
-            _detectorWorker.Schedule(_detectorInput);
-
-            var idxAwaitable = (_detectorWorker.PeekOutput(0) as Tensor<int>).ReadbackAndCloneAsync();
-            var scoreAwaitable = (_detectorWorker.PeekOutput(1) as Tensor<float>).ReadbackAndCloneAsync();
-            var boxAwaitable = (_detectorWorker.PeekOutput(2) as Tensor<float>).ReadbackAndCloneAsync();
-
-            using var outputIdx = await idxAwaitable;
-            using var outputScore = await scoreAwaitable;
-            using var outputBox = await boxAwaitable;
-
-            if (outputScore[0] < scoreThreshold) {
-                visualizer?.ClearPose();
-                return;
+            float2 kp1ImageSpace, kp2ImageSpace;
+            if (_isTracking) {
+                // Skip the person detector entirely - reuse where the landmark model itself
+                // last said its two alignment points were.
+                Mode = "Tracking";
+                kp1ImageSpace = _trackedKp1ImageSpace;
+                kp2ImageSpace = _trackedKp2ImageSpace;
+            } else {
+                Mode = "Detecting";
+                var detection = await TryDetectPerson(width, height);
+                if (!detection.success) {
+                    visualizer?.ClearPose();
+                    return;
+                }
+                kp1ImageSpace = detection.kp1;
+                kp2ImageSpace = detection.kp2;
             }
 
-            var idx = outputIdx[0];
-            var anchorPosition = DetectorInputSize * new float2(_anchors[idx, 0], _anchors[idx, 1]);
-
-            var kp1ImageSpace = BlazePoseUtils.mul(m, anchorPosition + new float2(outputBox[0, 0, 4], outputBox[0, 0, 5]));
-            var kp2ImageSpace = BlazePoseUtils.mul(m, anchorPosition + new float2(outputBox[0, 0, 6], outputBox[0, 0, 7]));
             var deltaImageSpace = kp2ImageSpace - kp1ImageSpace;
             const float dscale = 1.25f;
             var radius = dscale * math.length(deltaImageSpace);
@@ -173,7 +191,62 @@ namespace QuestCameraKit.WebRTC {
                 };
             }
 
+            // Landmarks 33 and 34 (beyond the 33 body joints in the 39-point output) are the
+            // model's own re-predicted alignment keypoints - their confidence is the signal for
+            // whether the tracked crop is still centered on something real, independent of how
+            // much of the body itself happens to be visible right now.
+            var trackingConfidence = Mathf.Min(landmarks[5 * 33 + 3], landmarks[5 * 33 + 4], landmarks[5 * 34 + 3], landmarks[5 * 34 + 4]);
+            LastTrackingConfidence = trackingConfidence;
+            _isTracking = trackingConfidence >= minTrackingConfidence;
+            if (_isTracking) {
+                _trackedKp1ImageSpace = BlazePoseUtils.mul(m2, new float2(landmarks[5 * 33 + 0], landmarks[5 * 33 + 1]));
+                _trackedKp2ImageSpace = BlazePoseUtils.mul(m2, new float2(landmarks[5 * 34 + 0], landmarks[5 * 34 + 1]));
+            }
+
             visualizer?.ApplyPose(_landmarks, referenceLengthCm);
+        }
+
+        // Runs the full-frame person detector to (re-)acquire the two alignment keypoints that
+        // seed the landmarker's crop, for when there's no tracked pose to derive them from yet.
+        // (async methods can't have out/ref parameters, hence the tuple return.)
+        private async Awaitable<(bool success, float2 kp1, float2 kp2)> TryDetectPerson(int width, int height) {
+            // Crop to the SHORTER side (centered) rather than padding out to the longer one -
+            // the passthrough frame is wide (e.g. 1280x960), and padding to a 1280x1280 square
+            // wastes a third of the 224x224 detector input on empty letterbox bars, making an
+            // already-small puppet even smaller by the time the model sees it. Cropping loses
+            // some peripheral field of view instead, which is the better trade here since
+            // whoever is holding the puppet keeps it roughly centered anyway.
+            var size = Mathf.Min(width, height);
+
+            // The affine transformation matrix to go from detector-tensor coordinates to
+            // image coordinates.
+            var scale = size / (float)DetectorInputSize;
+            var m = BlazePoseUtils.mul(
+                BlazePoseUtils.TranslationMatrix(0.5f * (new float2(width, height) + new float2(-size, size))),
+                BlazePoseUtils.ScaleMatrix(new float2(scale, -scale)));
+            BlazePoseUtils.SampleImageAffine(cameraAccess.GetTexture(), _detectorInput, m);
+
+            _detectorWorker.Schedule(_detectorInput);
+
+            var idxAwaitable = (_detectorWorker.PeekOutput(0) as Tensor<int>).ReadbackAndCloneAsync();
+            var scoreAwaitable = (_detectorWorker.PeekOutput(1) as Tensor<float>).ReadbackAndCloneAsync();
+            var boxAwaitable = (_detectorWorker.PeekOutput(2) as Tensor<float>).ReadbackAndCloneAsync();
+
+            using var outputIdx = await idxAwaitable;
+            using var outputScore = await scoreAwaitable;
+            using var outputBox = await boxAwaitable;
+
+            LastDetectionScore = outputScore[0];
+            if (outputScore[0] < scoreThreshold) {
+                return (false, default, default);
+            }
+
+            var idx = outputIdx[0];
+            var anchorPosition = DetectorInputSize * new float2(_anchors[idx, 0], _anchors[idx, 1]);
+
+            var kp1ImageSpace = BlazePoseUtils.mul(m, anchorPosition + new float2(outputBox[0, 0, 4], outputBox[0, 0, 5]));
+            var kp2ImageSpace = BlazePoseUtils.mul(m, anchorPosition + new float2(outputBox[0, 0, 6], outputBox[0, 0, 7]));
+            return (true, kp1ImageSpace, kp2ImageSpace);
         }
 
         private void OnDestroy() {

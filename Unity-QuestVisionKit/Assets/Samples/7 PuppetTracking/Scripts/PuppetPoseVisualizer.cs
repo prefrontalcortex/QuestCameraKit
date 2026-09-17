@@ -20,6 +20,25 @@ namespace QuestCameraKit.WebRTC {
         [SerializeField] private float minVisibility = 0.3f;
         [SerializeField] private Color skeletonColor = new Color(0.36f, 0.55f, 1f);
 
+        // Neither producer (browser MediaPipe nor the on-device detector) smooths landmarks
+        // over time, so raw per-frame noise goes straight into the placement math and shows up
+        // as visible jitter - a 1€ filter per landmark coordinate fixes that without adding the
+        // fixed lag a plain low-pass filter would (see OneEuroFilter.cs for why).
+        //
+        // The tracked subject here is a mannequin/puppet, not a live moving person - it doesn't
+        // move on its own, so beta (which relaxes smoothing when the filter senses real motion)
+        // has nothing genuine to relax for: any apparent "velocity" in a static prop's landmarks
+        // is just detection noise, not motion worth staying responsive to. Head movement is
+        // already handled separately and correctly by ray-casting through the current camera
+        // pose each frame (see ApplyPose) - a static prop should land at a stable world position
+        // regardless of where the headset is looking from, as long as the 2D detection itself is
+        // stable. So beta is tuned near zero and minCutoff low: prioritize a rock-steady pose
+        // over reacting quickly, since there's no real motion here to react to.
+        [SerializeField] private bool enableSmoothing = true;
+        [SerializeField] private float smoothingMinCutoff = 0.25f;
+        [SerializeField] private float smoothingBeta = 0.02f;
+        [SerializeField] private float smoothingDerivativeCutoff = 1f;
+
         // Standard MediaPipe BlazePose 33-landmark connection graph, matching
         // PoseLandmarker.POSE_CONNECTIONS on the browser side exactly (extracted from
         // @mediapipe/tasks-vision) so both ends draw the same skeleton topology.
@@ -66,6 +85,10 @@ namespace QuestCameraKit.WebRTC {
         private readonly Queue<string> _pendingMessages = new Queue<string>();
         private readonly object _queueLock = new object();
 
+        private OneEuroFilter[] _xFilters;
+        private OneEuroFilter[] _yFilters;
+        private Landmark[] _smoothedLandmarks;
+
         private void Awake() {
             if (!cameraAccess) {
                 cameraAccess = FindAnyObjectByType<PassthroughCameraAccess>(FindObjectsInactive.Include);
@@ -76,6 +99,14 @@ namespace QuestCameraKit.WebRTC {
             if (streamer) {
                 streamer.OnDataChannelMessage += HandleDataChannelMessage;
             }
+
+            _xFilters = new OneEuroFilter[LandmarkCount];
+            _yFilters = new OneEuroFilter[LandmarkCount];
+            for (var i = 0; i < LandmarkCount; i++) {
+                _xFilters[i] = new OneEuroFilter(smoothingMinCutoff, smoothingBeta, smoothingDerivativeCutoff);
+                _yFilters[i] = new OneEuroFilter(smoothingMinCutoff, smoothingBeta, smoothingDerivativeCutoff);
+            }
+            _smoothedLandmarks = new Landmark[LandmarkCount];
 
             BuildVisuals();
         }
@@ -162,6 +193,19 @@ namespace QuestCameraKit.WebRTC {
             if (landmarks == null || landmarks.Length != LandmarkCount) return;
             if (!cameraAccess || !cameraAccess.IsPlaying) return;
 
+            if (enableSmoothing) {
+                var timestamp = Time.unscaledTime;
+                for (var i = 0; i < LandmarkCount; i++) {
+                    var lm = landmarks[i];
+                    _smoothedLandmarks[i] = new Landmark {
+                        X = _xFilters[i].Filter(lm.X, timestamp),
+                        Y = _yFilters[i].Filter(lm.Y, timestamp),
+                        Visibility = lm.Visibility
+                    };
+                }
+                landmarks = _smoothedLandmarks;
+            }
+
             var camPose = cameraAccess.GetCameraPose();
 
             var shoulderMid = Average(landmarks[LeftShoulder], landmarks[RightShoulder]);
@@ -208,10 +252,15 @@ namespace QuestCameraKit.WebRTC {
             }
         }
 
-        // Hides the whole skeleton - e.g. when an on-device detector loses tracking.
+        // Hides the whole skeleton - e.g. when an on-device detector loses tracking. Also
+        // resets the smoothing filters, so a fresh detection after a gap doesn't get pulled
+        // toward wherever the pose was before it was lost.
         public void ClearPose() {
             foreach (var lr in _connectorRenderers) lr.enabled = false;
             foreach (var joint in _jointSpheres) joint.gameObject.SetActive(false);
+
+            foreach (var filter in _xFilters) filter.Reset();
+            foreach (var filter in _yFilters) filter.Reset();
         }
 
         private static Landmark Average(Landmark a, Landmark b) {
