@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puppet Tracking – Signal Viewer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #14161c;
+      --panel: #1d2029;
+      --border: #2c3040;
+      --text: #e6e8ef;
+      --muted: #8a8fa3;
+      --accent: #5b8cff;
+      --ok: #46c17a;
+      --warn: #e0a63a;
+      --err: #e05a5a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.4 system-ui, -apple-system, Segoe UI, sans-serif;
+    }
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 { margin: 0; font-size: 18px; }
+    header p { margin: 4px 0 0; color: var(--muted); }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+      gap: 16px;
+      padding: 16px 20px;
+    }
+    @media (max-width: 800px) {
+      main { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .video-wrap {
+      position: relative;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+    }
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-align: center;
+      padding: 0 20px;
+    }
+    /* Author CSS beats the browser's default [hidden]{display:none}, so the class rule
+       above would otherwise keep this visible - and on top of the video - forever. */
+    .video-placeholder[hidden] {
+      display: none;
+    }
+    .stats-overlay {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #cfe0ff;
+      pointer-events: none;
+    }
+    label { display: block; margin: 10px 0 4px; color: var(--muted); font-size: 12px; }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #12141b;
+      color: var(--text);
+    }
+    .row { display: flex; gap: 8px; margin-top: 12px; }
+    button {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary { background: #2a2e3a; color: var(--text); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+    .dot.connected { background: var(--ok); }
+    .dot.waiting { background: var(--warn); }
+    .dot.disconnected { background: var(--err); }
+    .log {
+      margin-top: 12px;
+      height: 220px;
+      overflow-y: auto;
+      background: #10121a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+      font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace;
+      color: var(--muted);
+      white-space: pre-wrap;
+    }
+    .log div.err { color: var(--err); }
+    .log div.out { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Puppet Tracking – Signal Viewer</h1>
+    <p>Receives the Quest 3 passthrough video over WebRTC (SimpleWebRTC signaling) so the raw camera signal can be checked before any pose/skeleton AI is added.</p>
+  </header>
+  <main>
+    <section class="panel">
+      <div class="video-wrap">
+        <video id="video" autoplay playsinline muted></video>
+        <div id="placeholder" class="video-placeholder">No stream yet – connect and start transmission on the Quest.</div>
+        <div id="statsOverlay" class="stats-overlay" hidden></div>
+      </div>
+      <button id="playBtn" class="secondary" style="margin-top: 10px;" hidden>Tap to play video</button>
+    </section>
+
+    <section class="panel">
+      <label for="serverUrl">Signaling server URL</label>
+      <input id="serverUrl" type="text" value="" />
+
+      <label for="peerId">Local peer ID</label>
+      <input id="peerId" type="text" value="" />
+
+      <div class="row">
+        <button id="connectBtn">Connect</button>
+        <button id="disconnectBtn" class="secondary" disabled>Disconnect</button>
+      </div>
+
+      <div class="status">
+        <span id="statusDot" class="dot"></span>
+        <span id="statusText">disconnected</span>
+      </div>
+
+      <label for="log">Debug log</label>
+      <div id="log" class="log"></div>
+    </section>
+  </main>
+
+  <script src="client.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 using Meta.XR;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 #if WEBRTC_ENABLED
 using SimpleWebRTC;
@@ -43,7 +44,7 @@ namespace QuestCameraKit.WebRTC {
             canvasRawImage.texture = cameraAccess.GetTexture();
 
             if (OVRInput.GetDown(OVRInput.Button.Start)) {
-                _webRTCConnection.StartVideoTransmission();
+                TryStartVideoTransmission();
             }
 
             if (adaptFovToCustomValue && streamingCameras != null) {
@@ -53,10 +54,21 @@ namespace QuestCameraKit.WebRTC {
             }
 
 #if UNITY_EDITOR
-            if (Input.GetKeyUp(KeyCode.Space)) {
-                _webRTCConnection.StartVideoTransmission();
+            if (Keyboard.current?.spaceKey.wasReleasedThisFrame == true) {
+                TryStartVideoTransmission();
             }
 #endif
+        }
+
+        private void TryStartVideoTransmission() {
+            // WebRTCConnection.StartVideoTransmission() is not idempotent: its internal
+            // StopCoroutine(StartVideoTransmissionAsync()) call can never actually cancel a
+            // previous run (StopCoroutine only matches the exact enumerator instance it was
+            // started with, and every call creates a new one), so triggering it again while
+            // transmission is already active adds a second video track/transceiver to the
+            // same peer connection instead of restarting the first one.
+            if (_webRTCConnection.IsVideoTransmissionActive) return;
+            _webRTCConnection.StartVideoTransmission();
         }
 #endif
 

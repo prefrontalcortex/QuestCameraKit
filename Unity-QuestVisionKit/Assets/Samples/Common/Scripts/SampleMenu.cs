@@ -84,6 +84,7 @@ namespace QuestCameraKit
                 "ImageLLM" => "Image + voice AI",
                 "WebRTC-Quest" => "WebRTC streaming",
                 "QRCodeDetection" => "QR tracking (Meta native)",
+                "PuppetTracking-Quest" => "Puppet tracking (video signal check)",
                 var name => name
             };
         }

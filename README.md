@@ -34,7 +34,7 @@ git lfs pull
 4. Enable **Development Build** for the included Quak test setup, then choose **Build and Run**. See [release-build settings](docs/testing.md#build-one-real-sample-for-quest) before making a non-development build.
 5. Keep the headset awake, accept the relevant camera/spatial-data permissions, and choose a sample from the menu.
 
-The build includes **all six headset samples**, starting with ColorPicker. The desktop WebRTC receiver is separate.
+The build includes **all seven headset samples**, starting with ColorPicker. The desktop WebRTC receiver and the puppet-tracking signaling server are separate.
 
 | Action | Quest controller | Editor keyboard |
 | --- | --- | --- |
@@ -54,6 +54,7 @@ Scenes live in [`Unity-QuestVisionKit/Assets/Samples`](Unity-QuestVisionKit/Asse
 | [Camera shaders](#4-camera-shaders) | Stereo camera mapping, frosted glass, and portal effects | `CameraMappingForShaders` |
 | [Image + voice AI](#5-image--voice-ai) | Ask a spoken question about a camera image | `ImageLLM` |
 | [WebRTC streaming](#6-webrtc-streaming) | Send camera video to a receiving peer | `WebRTC-Quest` |
+| [Puppet tracking](#7-puppet-tracking-video-signal-check) | Stream passthrough video of a physical puppet to a web viewer | `PuppetTracking-Quest` |
 
 The demos below illustrate the samples; they were captured with earlier project versions.
 
@@ -109,6 +110,17 @@ Stream camera video using SimpleWebRTC, Unity WebRTC, and NativeWebSocket.
 See the [signaling setup tutorial](https://www.youtube.com/watch?v=-CwJTgt_Z3M). Both peers must be able to reach the signaling server; successful signaling alone does not prove video is flowing.
 
 ![Quest camera video streamed over WebRTC](https://media.githubusercontent.com/media/xrdevrob/QuestCameraKit/befec3b/Media/PCA_WebRTC.gif)
+
+### 7. Puppet tracking (video signal check)
+
+First step of an XR Skillslab prototype that will eventually track a physical puppet's skeleton via passthrough and drive a bone rig from it. This sample only proves the video path, streaming the passthrough camera directly into a `Unity.WebRTC` `VideoStreamTrack` via `PassthroughWebRTCStreamer` + `PassthroughCameraAccess` (no pose/skeleton computation yet, and no SimpleWebRTC — an earlier version of this sample used the `6 WebRTC` sample's SimpleWebRTC package, but its "camera photographs a UI canvas" capture path never produced a reliable image).
+
+1. Start the signaling server in [`SignalingServer`](SignalingServer) (`npm install && npm start`) and note the machine's LAN IP.
+2. In `PuppetTracking-Quest`, set `signalingServerUrl` on the `PassthroughWebRTCStreamer` component to `ws://<that-lan-ip>:3000`.
+3. Run `PuppetTracking-Quest` on the headset, aim it at the puppet, and open `http://<that-lan-ip>:3000` in a browser on the same network, then click **Connect**.
+4. No manual "start transmission" step is needed — the live passthrough image should appear automatically in the browser viewer once the camera is playing and the browser has registered.
+
+See [`SignalingServer/README.md`](SignalingServer/README.md) for protocol details and troubleshooting.
 
 ## Dependencies
 
