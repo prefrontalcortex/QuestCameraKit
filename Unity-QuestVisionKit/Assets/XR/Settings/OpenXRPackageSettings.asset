@@ -21,9 +21,9 @@ MonoBehaviour:
     XR_META_vulkan_swapchain_create_info
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   enableSubsampledLayout: 0
   useEyeTracking: 1
 --- !u!114 &-9132924056263641117
@@ -46,9 +46,9 @@ MonoBehaviour:
     XR_META_spatial_entity_discovery XR_META_spatial_entity_semantic_label XR_META_spatial_entity_room_mesh
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_PlaneProviderType: 1
 --- !u!114 &-8947796621082057610
 MonoBehaviour:
@@ -71,9 +71,9 @@ MonoBehaviour:
     XR_KHR_android_surface_swapchain
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-8935840914627311399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,16 +86,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7365b139f7aec43b23d26b7a48b5a6, type: 3}
   m_Name: MetaQuestTouchPlusControllerProfile Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Meta Quest Touch Plus Controller Profile
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.metaquestplus
   openxrExtensionStrings: XR_META_touch_controller_plus
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-8550998992746279607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,9 +115,9 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-8420787952174988049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-8365916145334193358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,9 +190,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_passthrough
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_CameraImageSupport: 0
   m_PassthroughPreSplashScreen: 0
 --- !u!114 &-8330565084897345904
@@ -258,7 +258,7 @@ MonoBehaviour:
   - {fileID: -4697441752016129036}
   - {fileID: -4112553123875102057}
   - {fileID: 1497418547066896282}
-  customLoaderName:
+  customLoaderName: 
   m_renderMode: 1
   m_latencyOptimization: 0
   m_autoColorSubmissionMode: 1
@@ -285,16 +285,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b862ee14fb479fbfe5fffe655d3ed3, type: 3}
   m_Name: MetaQuestTouchProControllerProfile Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Meta Quest Touch Pro Controller Profile
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.metaquestpro
   openxrExtensionStrings: XR_FB_touch_controller_pro
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-8152486620162250606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +316,52 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-7721849758778647718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f06e90513f934dc6891726a9f2a0444, type: 3}
+  m_Name: AndroidMouseInteractionProfile Android
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.Interactions.AndroidMouseInteractionProfile
+  m_enabled: 0
+  nameUi: Android Mouse Interaction Profile
+  version: 0.0.1
+  featureIdInternal: com.unity.openxr.feature.input.androidmouse
+  openxrExtensionStrings: XR_ANDROID_mouse_interaction
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-7558008202689105277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f7049b82bd4c5bb751195883f5a421, type: 3}
+  m_Name: QuakObservabilityFeature Android
+  m_EditorClassIdentifier: XRDevRob.QUAK.Direct::XRDevRob.QUAK.Direct.QuakObservabilityFeature
+  m_enabled: 0
+  nameUi: QUAK Runtime Observability
+  version: 0.3.1
+  featureIdInternal: com.xrdevrob.quak.observability
+  openxrExtensionStrings: XR_META_performance_metrics XR_FB_display_refresh_rate
+    XR_FB_passthrough XR_META_passthrough_layer_resumed_event
+  company: XR Dev Rob
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-7439528050697771762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,9 +381,9 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity Technologies
   priority: 2147483647
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-7166464912542184088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,9 +404,9 @@ MonoBehaviour:
     XR_META_spatial_entity_sharing XR_META_spatial_entity_group_sharing XR_FB_spatial_entity_query
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-7090151466276671336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,9 +427,9 @@ MonoBehaviour:
     XR_FB_passthrough XR_META_passthrough_layer_resumed_event
   company: XR Dev Rob
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-6979939743321133505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,9 +450,55 @@ MonoBehaviour:
     XR_META_spatial_entity_discovery
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-6760228865532222606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3aced3429e5911458f4da2dac9d0f29, type: 3}
+  m_Name: MetaHandTrackingAim Standalone
+  m_EditorClassIdentifier: Unity.XR.Hands::UnityEngine.XR.Hands.OpenXR.MetaHandTrackingAim
+  m_enabled: 0
+  nameUi: Meta Hand Tracking Aim
+  version: 0.0.1
+  featureIdInternal: com.unity.openxr.feature.input.metahandtrackingaim
+  openxrExtensionStrings: XR_FB_hand_tracking_aim
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-6724751880394325690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee92377a8e0c873458b71a94a80f3394, type: 3}
+  m_Name: ApiLayersFeature Standalone
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.ApiLayersFeature
+  m_enabled: 0
+  nameUi: API Layers
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.apilayers
+  openxrExtensionStrings: 
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_ApiLayers:
+    m_Collection: []
 --- !u!114 &-6712991844789924928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,9 +519,9 @@ MonoBehaviour:
     XR_META_spatial_entity_sharing XR_META_spatial_entity_group_sharing XR_FB_spatial_entity_query
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-6143807727169299428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,9 +541,31 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_palm_pose
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-5714922950902832564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37086d3966675294eb1c38ad413c6817, type: 3}
+  m_Name: DetachedMetaQuestTouchPlusControllerProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedMetaQuestTouchPlusControllerProfile
+  m_enabled: 0
+  nameUi: Detached Meta Quest Touch Plus Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.metaquestplus.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-5441574068919605418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,9 +585,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_debug_utils
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_MessageSeverity: 4369
   m_MessageType: 15
 --- !u!114 &-5411347009713286528
@@ -529,7 +642,7 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-5361699676124748329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,9 +662,31 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-5301985867470716005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 902a2253d8b44355ab6bd99b6a723657, type: 3}
+  m_Name: QuakSimultaneousInputFeature Android
+  m_EditorClassIdentifier: XRDevRob.QUAK.Direct::XRDevRob.QUAK.Direct.QuakSimultaneousInputFeature
+  m_enabled: 0
+  nameUi: QUAK Simultaneous Hands and Controllers
+  version: 0.3.1
+  featureIdInternal: com.xrdevrob.quak.simultaneous-input
+  openxrExtensionStrings: XR_META_simultaneous_hands_and_controllers
+  company: XR Dev Rob
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-5296294825284691079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,8 +701,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   features:
   - {fileID: 4030184609890416108}
+  - {fileID: -2038706073192841443}
   - {fileID: -8947796621082057610}
   - {fileID: -4378267278008522832}
+  - {fileID: -5441574068919605418}
+  - {fileID: 3794499577215266604}
+  - {fileID: -8152486620162250606}
+  - {fileID: -2157660816303702557}
   - {fileID: -3879968863677489619}
   - {fileID: 5675199094317155618}
   - {fileID: 5125735900091436663}
@@ -576,6 +716,7 @@ MonoBehaviour:
   - {fileID: 2538119115665746326}
   - {fileID: -4891527772022199976}
   - {fileID: 8086081001217593215}
+  - {fileID: 1832205211974185616}
   - {fileID: 6998838734256914769}
   - {fileID: -921901733610244487}
   - {fileID: -7166464912542184088}
@@ -589,6 +730,7 @@ MonoBehaviour:
   - {fileID: 3087575729072840571}
   - {fileID: -1646802134076653481}
   - {fileID: 3602157137861117232}
+  - {fileID: -4701163122809735362}
   - {fileID: 4847868489824130819}
   - {fileID: -8420787952174988049}
   - {fileID: -2171581160409085523}
@@ -597,21 +739,14 @@ MonoBehaviour:
   - {fileID: -8550998992746279607}
   - {fileID: -3539225086063334714}
   - {fileID: -2800700357289696415}
+  - {fileID: 310969308472841292}
   - {fileID: 7064048387362446299}
+  - {fileID: -143030434218049668}
   - {fileID: -3917559466099097455}
   - {fileID: -3619693645398152916}
   - {fileID: -3573913667219006913}
-  - {fileID: -143030434218049668}
-  - {fileID: -2038706073192841443}
-  - {fileID: -5441574068919605418}
-  - {fileID: -4701163122809735362}
-  - {fileID: 1832205211974185616}
   - {fileID: -4966867344118545119}
-  - {fileID: 310969308472841292}
-  - {fileID: -8152486620162250606}
-  - {fileID: 3794499577215266604}
-  - {fileID: -2157660816303702557}
-  customLoaderName:
+  customLoaderName: 
   m_renderMode: 1
   m_latencyOptimization: 0
   m_autoColorSubmissionMode: 1
@@ -645,9 +780,31 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_hand_tracking
   company: Unity
   priority: -100
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-4964727411049274917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e314dfef9af0904e80129bcc0a79361, type: 3}
+  m_Name: HandTracking Standalone
+  m_EditorClassIdentifier: Unity.XR.Hands::UnityEngine.XR.Hands.OpenXR.HandTracking
+  m_enabled: 0
+  nameUi: Hand Tracking Subsystem
+  version: 0.0.1
+  featureIdInternal: com.unity.openxr.feature.input.handtracking
+  openxrExtensionStrings: XR_EXT_hand_tracking
+  company: Unity
+  priority: -100
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-4891527772022199976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,9 +824,9 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-4831367741565080420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,9 +846,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_hand_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-4701163122809735362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,9 +868,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_eye_tracking_social
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_EyeTrackingRequired: 0
 --- !u!114 &-4697441752016129036
 MonoBehaviour:
@@ -736,7 +893,7 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-4567486926342659840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,9 +913,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_MSFT_hand_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-4378267278008522832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,9 +935,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_conformance_automation
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-4369854559154989587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,9 +957,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_hand_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-4369774700514534353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,9 +979,76 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_eye_tracking_social
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+  m_EyeTrackingRequired: 0
+--- !u!114 &-4367876475274857034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e314dfef9af0904e80129bcc0a79361, type: 3}
+  m_Name: HandTracking Standalone
+  m_EditorClassIdentifier: Unity.XR.Hands::UnityEngine.XR.Hands.OpenXR.HandTracking
+  m_enabled: 0
+  nameUi: Hand Tracking Subsystem
+  version: 0.0.1
+  featureIdInternal: com.unity.openxr.feature.input.handtracking
+  openxrExtensionStrings: XR_EXT_hand_tracking
+  company: Unity
+  priority: -100
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-4338753100553647796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71063a1b14d143f6990812f86e57c826, type: 3}
+  m_Name: QuakOperatorFeature Android
+  m_EditorClassIdentifier: XRDevRob.QUAK.MetaOperator::XRDevRob.QUAK.MetaOperator.QuakOperatorFeature
+  m_enabled: 0
+  nameUi: QUAK Meta XR Operator Bridge
+  version: 0.3.1
+  featureIdInternal: com.xrdevrob.quak.operator-bridge
+  openxrExtensionStrings: XR_METAX1_agentic_external_tool
+  company: XR Dev Rob
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-4240772979698726906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726b8292bd60ba7429f3d2818eb4298d, type: 3}
+  m_Name: MetaSocialEyeGazeFeature Standalone
+  m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.MetaSocialEyeGazeFeature
+  m_enabled: 0
+  nameUi: 'Meta Quest: Social Eye Gaze'
+  version: 0.1.0
+  featureIdInternal: com.unity.openxr.feature.meta-social-eye-gaze
+  openxrExtensionStrings: XR_FB_eye_tracking_social
+  company: Unity Technologies
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
   m_EyeTrackingRequired: 0
 --- !u!114 &-4112553123875102057
 MonoBehaviour:
@@ -847,7 +1071,31 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-3997198332643341187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92efb7dda02dc484c90845a437c4784e, type: 3}
+  m_Name: AutomaticDynamicResolutionFeature Android
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.AutomaticDynamicResolutionFeature
+  m_enabled: 0
+  nameUi: Automatic Viewport Dynamic Resolution
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.ViewportDynamicResolution
+  openxrExtensionStrings: XR_META_recommended_layer_resolution XR_ANDROID_recommended_resolution
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_MinResolutionScalar: 0.05
+  m_MaxResolutionScalar: 1
 --- !u!114 &-3917559466099097455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,9 +1115,9 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   cacheSize: 1048576
   perThreadCacheSize: 51200
 --- !u!114 &-3908372613337139046
@@ -891,9 +1139,9 @@ MonoBehaviour:
   openxrExtensionStrings: 'XR_FB_foveation XR_FB_foveation_configuration XR_FB_foveation_vulkan '
   company: Meta
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-3879968863677489619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,9 +1161,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_KHR_binding_modification XR_EXT_dpad_binding
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   forceThresholdLeft: 0.5
   forceThresholdReleaseLeft: 0.4
   centerRegionLeft: 0.5
@@ -929,6 +1177,28 @@ MonoBehaviour:
   extensionStrings:
   - XR_KHR_binding_modification
   - XR_EXT_dpad_binding
+--- !u!114 &-3681749457486593465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8f7a7b4a7bf27d4d96b8eb673f5174e, type: 3}
+  m_Name: OculusTouchControllerProximityProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.OculusTouchControllerProximityProfile
+  m_enabled: 0
+  nameUi: Oculus Touch Controller Proximity Interaction
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.oculustouch.proximity
+  openxrExtensionStrings: XR_FB_touch_controller_proximity
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-3619693645398152916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,9 +1218,9 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-3612894738682258099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,9 +1240,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_colocation_discovery
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-3573913667219006913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,9 +1262,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_performance_settings
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-3539225086063334714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1014,10 +1284,54 @@ MonoBehaviour:
   openxrExtensionStrings: XR_UNITY_null_gfx XR_UNITY_android_present
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   ignoreValidationErrors: 0
+--- !u!114 &-3522455496560292676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3aced3429e5911458f4da2dac9d0f29, type: 3}
+  m_Name: MetaHandTrackingAim Android
+  m_EditorClassIdentifier: Unity.XR.Hands::UnityEngine.XR.Hands.OpenXR.MetaHandTrackingAim
+  m_enabled: 0
+  nameUi: Meta Hand Tracking Aim
+  version: 0.0.1
+  featureIdInternal: com.unity.openxr.feature.input.metahandtrackingaim
+  openxrExtensionStrings: XR_FB_hand_tracking_aim
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-3306717454298333947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8f7a7b4a7bf27d4d96b8eb673f5174e, type: 3}
+  m_Name: OculusTouchControllerProximityProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.OculusTouchControllerProximityProfile
+  m_enabled: 0
+  nameUi: Oculus Touch Controller Proximity Interaction
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.oculustouch.proximity
+  openxrExtensionStrings: XR_FB_touch_controller_proximity
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-3149511590245656202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1037,9 +1351,31 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-2992772105331865966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8f7a7b4a7bf27d4d96b8eb673f5174e, type: 3}
+  m_Name: OculusTouchControllerProximityProfile Android
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.OculusTouchControllerProximityProfile
+  m_enabled: 0
+  nameUi: Oculus Touch Controller Proximity Interaction
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.oculustouch.proximity
+  openxrExtensionStrings: XR_FB_touch_controller_proximity
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-2910941232163460293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1059,9 +1395,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_colocation_discovery
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-2800700357289696415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1081,9 +1417,9 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-2672175567590219038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,7 +1434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   features:
   - {fileID: 379357747105527818}
-  customLoaderName:
+  customLoaderName: 
   m_renderMode: 1
   m_latencyOptimization: 0
   m_autoColorSubmissionMode: 1
@@ -1113,6 +1449,50 @@ MonoBehaviour:
   m_hasMigratedMultiviewRenderRegionSetting: 1
   m_foveatedRenderingApi: 0
   m_useOpenXRPredictedTime: 0
+--- !u!114 &-2515052498133645734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37086d3966675294eb1c38ad413c6817, type: 3}
+  m_Name: DetachedMetaQuestTouchPlusControllerProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedMetaQuestTouchPlusControllerProfile
+  m_enabled: 0
+  nameUi: Detached Meta Quest Touch Plus Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.metaquestplus.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-2402666717632385450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda5cc6e8db3d9944bf84a7379663d7c, type: 3}
+  m_Name: DetachedMetaQuestTouchProControllerProfile Android
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedMetaQuestTouchProControllerProfile
+  m_enabled: 0
+  nameUi: Detached Meta Quest Touch Pro Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.metaquestpro.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-2399199444419737717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1132,9 +1512,54 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_conformance_automation
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-2375411509457054816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71063a1b14d143f6990812f86e57c826, type: 3}
+  m_Name: QuakOperatorFeature Standalone
+  m_EditorClassIdentifier: XRDevRob.QUAK.MetaOperator::XRDevRob.QUAK.MetaOperator.QuakOperatorFeature
+  m_enabled: 0
+  nameUi: QUAK Meta XR Operator Bridge
+  version: 0.3.1
+  featureIdInternal: com.xrdevrob.quak.operator-bridge
+  openxrExtensionStrings: XR_METAX1_agentic_external_tool
+  company: XR Dev Rob
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &-2291040512626455059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726b8292bd60ba7429f3d2818eb4298d, type: 3}
+  m_Name: MetaSocialEyeGazeFeature Android
+  m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.MetaSocialEyeGazeFeature
+  m_enabled: 0
+  nameUi: 'Meta Quest: Social Eye Gaze'
+  version: 0.1.0
+  featureIdInternal: com.unity.openxr.feature.meta-social-eye-gaze
+  openxrExtensionStrings: XR_FB_eye_tracking_social
+  company: Unity Technologies
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_EyeTrackingRequired: 0
 --- !u!114 &-2171581160409085523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1154,9 +1579,9 @@ MonoBehaviour:
   openxrExtensionStrings: 'XR_FB_foveation XR_FB_foveation_configuration XR_FB_foveation_vulkan '
   company: Meta
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-2157660816303702557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1178,7 +1603,7 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-2038706073192841443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1191,18 +1616,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee92377a8e0c873458b71a94a80f3394, type: 3}
   m_Name: ApiLayersFeature Standalone
   m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.ApiLayersFeature
-  m_enabled: 0
+  m_enabled: 1
   nameUi: API Layers
   version: 1.0.0
   featureIdInternal: com.unity.openxr.feature.apilayers
-  openxrExtensionStrings:
+  openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_ApiLayers:
-    m_Collection: []
+    m_Collection:
+    - m_Json:
+        name: XR_APILAYER_METAX_operator
+        library_path: ./XrApiLayer_METAX_operator.dll
+        api_version: 1.1
+        implementation_version: 1
+        description: API layer that providing agentic interface for OpenXR
+      m_JsonFileName: XrApiLayer_METAX_operator.json
+      m_LibraryArchitecture: 1
+      m_IsEnabled: 1
 --- !u!114 &-1881737223572482353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1222,9 +1656,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_eye_gaze_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-1646802134076653481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1244,9 +1678,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_future XR_META_environment_raycast
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-1562043840384134362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,9 +1700,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_ANDROID_mouse_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-1404192864482536734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,9 +1722,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_simultaneous_hands_and_controllers
   company: XR Dev Rob
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-1286049194203868381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1310,9 +1744,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_recommended_layer_resolution XR_ANDROID_recommended_resolution
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_MinResolutionScalar: 0.05
   m_MaxResolutionScalar: 1
 --- !u!114 &-1262892902944514323
@@ -1334,9 +1768,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_scene_capture
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-1148844509934047822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,9 +1791,9 @@ MonoBehaviour:
     XR_META_spatial_entity_mesh
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-934190242276928848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1379,9 +1813,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_MSFT_hand_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-921901733610244487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,9 +1835,31 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_touch_controller_pro
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &-906584562617756512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda5cc6e8db3d9944bf84a7379663d7c, type: 3}
+  m_Name: DetachedMetaQuestTouchProControllerProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedMetaQuestTouchProControllerProfile
+  m_enabled: 0
+  nameUi: Detached Meta Quest Touch Pro Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.metaquestpro.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &-423117203941099253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1423,9 +1879,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_future XR_META_environment_raycast
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &-143030434218049668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1445,9 +1901,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_METAX1_agentic_external_tool
   company: XR Dev Rob
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1485,9 +1941,9 @@ MonoBehaviour:
     XR_META_spatial_entity_mesh
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &310969308472841292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1500,7 +1956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f7a7b4a7bf27d4d96b8eb673f5174e, type: 3}
   m_Name: OculusTouchControllerProximityProfile Standalone
   m_EditorClassIdentifier: Oculus.VR::Meta.XR.OculusTouchControllerProximityProfile
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Oculus Touch Controller Proximity Interaction
   version: 0.0.1
   featureIdInternal: com.meta.openxr.feature.input.oculustouch.proximity
@@ -1509,7 +1965,7 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &379357747105527818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1529,9 +1985,33 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_performance_settings
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &394784569511985930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9cc40e7c09aec94ca78bbcd76fc3508, type: 3}
+  m_Name: DebugUtilsFeature Standalone
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.DebugUtilsFeature
+  m_enabled: 0
+  nameUi: Debug Utils
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.debugutils
+  openxrExtensionStrings: XR_EXT_debug_utils
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_MessageSeverity: 4369
+  m_MessageType: 15
 --- !u!114 &511482407335002628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1553,9 +2033,9 @@ MonoBehaviour:
     XR_KHR_android_surface_swapchain
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &533715201225709970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1575,9 +2055,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_display_refresh_rate
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &717180094565253072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1598,9 +2078,9 @@ MonoBehaviour:
     XR_META_spatial_entity_discovery
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &955539454941316349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1620,9 +2100,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_debug_utils
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_MessageSeverity: 4369
   m_MessageType: 15
 --- !u!114 &1135446877526356465
@@ -1644,9 +2124,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_vulkan_swapchain_create_info
   company: Meta
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &1260145795657061289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,9 +2146,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_space_warp
   company: Meta
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &1326752345027777620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1688,9 +2168,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_OCULUS_android_initialize_loader
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   targetQuest: 1
   targetQuest2: 1
 --- !u!114 &1497418547066896282
@@ -1714,7 +2194,7 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &1565985461181378735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,16 +2207,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f647cc0545697264a9878224faada6d5, type: 3}
   m_Name: MetaQuestFeature Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Meta Quest Support
   version: 1.0.0
   featureIdInternal: com.unity.openxr.feature.metaquest
   openxrExtensionStrings: XR_OCULUS_android_initialize_loader
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   targetDevices:
   - visibleName: Quest
     manifestName: quest
@@ -1776,7 +2256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f7a7b4a7bf27d4d96b8eb673f5174e, type: 3}
   m_Name: OculusTouchControllerProximityProfile Android
   m_EditorClassIdentifier: Oculus.VR::Meta.XR.OculusTouchControllerProximityProfile
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Oculus Touch Controller Proximity Interaction
   version: 0.0.1
   featureIdInternal: com.meta.openxr.feature.input.oculustouch.proximity
@@ -1785,7 +2265,7 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &1609786898934162618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1805,9 +2285,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_UNITY_null_gfx XR_UNITY_android_present
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   ignoreValidationErrors: 0
 --- !u!114 &1832205211974185616
 MonoBehaviour:
@@ -1828,9 +2308,31 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_hand_tracking_aim
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &1841256143457304412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3aced3429e5911458f4da2dac9d0f29, type: 3}
+  m_Name: MetaHandTrackingAim Standalone
+  m_EditorClassIdentifier: Unity.XR.Hands::UnityEngine.XR.Hands.OpenXR.MetaHandTrackingAim
+  m_enabled: 0
+  nameUi: Meta Hand Tracking Aim
+  version: 0.0.1
+  featureIdInternal: com.unity.openxr.feature.input.metahandtrackingaim
+  openxrExtensionStrings: XR_FB_hand_tracking_aim
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &1870022304357730501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,9 +2352,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_METAX1_agentic_external_tool
   company: XR Dev Rob
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &1956089420635840536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1869,12 +2371,12 @@ MonoBehaviour:
   nameUi: API Layers
   version: 1.0.0
   featureIdInternal: com.unity.openxr.feature.apilayers
-  openxrExtensionStrings:
+  openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_ApiLayers:
     m_Collection:
     - m_Json:
@@ -1905,9 +2407,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_display_refresh_rate
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &2142621243156760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1927,11 +2429,35 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_passthrough
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_CameraImageSupport: 0
   m_PassthroughPreSplashScreen: 0
+--- !u!114 &2349847722741788685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee92377a8e0c873458b71a94a80f3394, type: 3}
+  m_Name: ApiLayersFeature Standalone
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.ApiLayersFeature
+  m_enabled: 0
+  nameUi: API Layers
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.apilayers
+  openxrExtensionStrings: 
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_ApiLayers:
+    m_Collection: []
 --- !u!114 &2538119115665746326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1951,9 +2477,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_hp_mixed_reality_controller
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &3067333943229690518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1973,9 +2499,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_vulkan_swapchain_create_info
   company: Meta
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &3087575729072840571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,9 +2522,9 @@ MonoBehaviour:
     XR_META_spatial_entity_discovery XR_META_spatial_entity_semantic_label XR_META_spatial_entity_room_mesh
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_PlaneProviderType: 1
 --- !u!114 &3148692146319188108
 MonoBehaviour:
@@ -2019,9 +2545,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_hand_tracking_aim
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &3224705864181665961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2041,9 +2567,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_boundary_visibility
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_SuppressVisibility: 0
 --- !u!114 &3241428883729976263
 MonoBehaviour:
@@ -2064,10 +2590,56 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_environment_depth
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_EnableHandRemoval: 0
+--- !u!114 &3271123419806537694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82a8cddc5afeb145ad4e1d76511063f, type: 3}
+  m_Name: DetachedOculusTouchControllerProfile Android
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedOculusTouchControllerProfile
+  m_enabled: 0
+  nameUi: Detached Oculus Touch Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.oculustouch.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &3568855939148071219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee92377a8e0c873458b71a94a80f3394, type: 3}
+  m_Name: ApiLayersFeature Android
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.ApiLayersFeature
+  m_enabled: 0
+  nameUi: API Layers
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.apilayers
+  openxrExtensionStrings: 
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_ApiLayers:
+    m_Collection: []
 --- !u!114 &3602157137861117232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2087,9 +2659,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_FB_scene_capture
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &3794499577215266604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2111,7 +2683,54 @@ MonoBehaviour:
   priority: 0
   targetOpenXRApiVersion: 1.1.45
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &3904880912437521465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9cc40e7c09aec94ca78bbcd76fc3508, type: 3}
+  m_Name: DebugUtilsFeature Standalone
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.DebugUtilsFeature
+  m_enabled: 0
+  nameUi: Debug Utils
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.debugutils
+  openxrExtensionStrings: XR_EXT_debug_utils
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_MessageSeverity: 4369
+  m_MessageType: 15
+--- !u!114 &4018396772974984133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726b8292bd60ba7429f3d2818eb4298d, type: 3}
+  m_Name: MetaSocialEyeGazeFeature Standalone
+  m_EditorClassIdentifier: Unity.XR.MetaOpenXR::UnityEngine.XR.OpenXR.Features.Meta.MetaSocialEyeGazeFeature
+  m_enabled: 0
+  nameUi: 'Meta Quest: Social Eye Gaze'
+  version: 0.1.0
+  featureIdInternal: com.unity.openxr.feature.meta-social-eye-gaze
+  openxrExtensionStrings: XR_FB_eye_tracking_social
+  company: Unity Technologies
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_EyeTrackingRequired: 0
 --- !u!114 &4030184609890416108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2131,9 +2750,31 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity Technologies
   priority: 2147483647
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &4811107612296237002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37086d3966675294eb1c38ad413c6817, type: 3}
+  m_Name: DetachedMetaQuestTouchPlusControllerProfile Android
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedMetaQuestTouchPlusControllerProfile
+  m_enabled: 0
+  nameUi: Detached Meta Quest Touch Plus Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.metaquestplus.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &4847868489824130819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2154,9 +2795,9 @@ MonoBehaviour:
     XR_META_vulkan_swapchain_create_info
   company: Meta
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &5102455211709725139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2176,9 +2817,9 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   cacheSize: 1048576
   perThreadCacheSize: 51200
 --- !u!114 &5125735900091436663
@@ -2202,9 +2843,9 @@ MonoBehaviour:
     XR_META_vulkan_swapchain_create_info
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   enableSubsampledLayout: 0
   useEyeTracking: 1
 --- !u!114 &5336749270260247149
@@ -2226,9 +2867,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_hand_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &5648404623096385006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2249,9 +2890,9 @@ MonoBehaviour:
     XR_META_vulkan_swapchain_create_info
   company: Meta
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &5675199094317155618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2271,9 +2912,31 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_eye_gaze_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &5875948594763647455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82a8cddc5afeb145ad4e1d76511063f, type: 3}
+  m_Name: DetachedOculusTouchControllerProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedOculusTouchControllerProfile
+  m_enabled: 0
+  nameUi: Detached Oculus Touch Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.oculustouch.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &5956611024726624234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2293,9 +2956,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_hand_interaction
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &6870842023019548404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2315,9 +2978,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_KHR_binding_modification XR_EXT_dpad_binding
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   forceThresholdLeft: 0.5
   forceThresholdReleaseLeft: 0.4
   centerRegionLeft: 0.5
@@ -2350,9 +3013,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_touch_controller_plus
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &7064048387362446299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2372,9 +3035,53 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_palm_pose
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &7131505375446131971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e314dfef9af0904e80129bcc0a79361, type: 3}
+  m_Name: HandTracking Android
+  m_EditorClassIdentifier: Unity.XR.Hands::UnityEngine.XR.Hands.OpenXR.HandTracking
+  m_enabled: 0
+  nameUi: Hand Tracking Subsystem
+  version: 0.0.1
+  featureIdInternal: com.unity.openxr.feature.input.handtracking
+  openxrExtensionStrings: XR_EXT_hand_tracking
+  company: Unity
+  priority: -100
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &7198672049831864172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda5cc6e8db3d9944bf84a7379663d7c, type: 3}
+  m_Name: DetachedMetaQuestTouchProControllerProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedMetaQuestTouchProControllerProfile
+  m_enabled: 0
+  nameUi: Detached Meta Quest Touch Pro Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.metaquestpro.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &7466526547693736805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2394,10 +3101,54 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_boundary_visibility
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_SuppressVisibility: 0
+--- !u!114 &7550618952151421899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71063a1b14d143f6990812f86e57c826, type: 3}
+  m_Name: QuakOperatorFeature Standalone
+  m_EditorClassIdentifier: XRDevRob.QUAK.MetaOperator::XRDevRob.QUAK.MetaOperator.QuakOperatorFeature
+  m_enabled: 0
+  nameUi: QUAK Meta XR Operator Bridge
+  version: 0.3.1
+  featureIdInternal: com.xrdevrob.quak.operator-bridge
+  openxrExtensionStrings: XR_METAX1_agentic_external_tool
+  company: XR Dev Rob
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+--- !u!114 &7887433953988346907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82a8cddc5afeb145ad4e1d76511063f, type: 3}
+  m_Name: DetachedOculusTouchControllerProfile Standalone
+  m_EditorClassIdentifier: Oculus.VR::Meta.XR.DetachedOculusTouchControllerProfile
+  m_enabled: 0
+  nameUi: Detached Oculus Touch Controller Profile
+  version: 0.0.1
+  featureIdInternal: com.meta.openxr.feature.input.oculustouch.detached
+  openxrExtensionStrings: XR_META_detached_controllers
+  company: Meta
+  priority: 0
+  targetOpenXRApiVersion: 1.1.45
+  required: 0
+  customRuntimeLoaderName: 
 --- !u!114 &8073467504402296493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2410,16 +3161,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01512f11fe5096443ad972feb69271f6, type: 3}
   m_Name: SpaceWarpFeature Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Application SpaceWarp
   version: 1.0.0
   featureIdInternal: com.unity.openxr.feature.spacewarp
   openxrExtensionStrings: XR_FB_space_warp
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_UseRightHandedNDC: 0
 --- !u!114 &8086081001217593215
 MonoBehaviour:
@@ -2440,9 +3191,33 @@ MonoBehaviour:
   openxrExtensionStrings: 
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
+--- !u!114 &8295520837379203133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9cc40e7c09aec94ca78bbcd76fc3508, type: 3}
+  m_Name: DebugUtilsFeature Android
+  m_EditorClassIdentifier: Unity.XR.OpenXR::UnityEngine.XR.OpenXR.Features.DebugUtilsFeature
+  m_enabled: 0
+  nameUi: Debug Utils
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.debugutils
+  openxrExtensionStrings: XR_EXT_debug_utils
+  company: Unity
+  priority: 0
+  targetOpenXRApiVersion: 
+  required: 0
+  customRuntimeLoaderName: 
+  m_MessageSeverity: 4369
+  m_MessageType: 15
 --- !u!114 &8315825076233044802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2462,9 +3237,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_environment_depth
   company: Unity Technologies
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
   m_EnableHandRemoval: 0
 --- !u!114 &8435003320859919459
 MonoBehaviour:
@@ -2485,9 +3260,9 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_performance_settings
   company: Unity
   priority: 0
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
 --- !u!114 &8830634233110230386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2507,6 +3282,6 @@ MonoBehaviour:
   openxrExtensionStrings: XR_EXT_hand_tracking
   company: Unity
   priority: -100
-  targetOpenXRApiVersion:
+  targetOpenXRApiVersion: 
   required: 0
-  customRuntimeLoaderName:
+  customRuntimeLoaderName: 
