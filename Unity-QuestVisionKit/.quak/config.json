@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "project_path": ".",
+  "unity_cli": "unity",
+  "operator_proxy": "meta-xr-operator-mcp-proxy",
+  "evidence_dir": ".quak/evidence",
+  "timeout_seconds": 30.0
+}

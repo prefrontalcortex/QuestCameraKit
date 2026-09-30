@@ -68,3 +68,31 @@ Keep the Quest awake, unlocked, and in the app with camera/spatial-data permissi
 The camera tests require fresh frames from every camera in the scene. ObjectDetection additionally requires completed inference. These are startup and processing checks, **not assertions that the detector correctly recognized a particular real object or QR code**. Verify actual content with known objects and QR codes in the headset's view. Confirm color sampling, marker alignment during head motion, stereo shader appearance, and controller/hand interactions on hardware.
 
 ImageLLM additionally needs a private API key, microphone permission and network access. Use only a development key for local testing; do not serialize production credentials into an APK. A production integration should send authenticated requests through your own backend. WebRTC needs a reachable signaling server and another receiving peer. Camera-startup tests do not establish end-to-end cloud or peer-to-peer success.
+
+PuppetTracking-Quest has two separate Quak plans, mirroring the split between "did it start correctly" and "does the feature actually work" used elsewhere in this file:
+
+```sh
+quak validate Unity-QuestVisionKit/quak-tests/PuppetTracking-Quest.json
+quak prove /absolute/path/Builds/PuppetTracking-Quest.apk \
+  Unity-QuestVisionKit/quak-tests/PuppetTracking-Quest.json \
+  --project /absolute/path/QuestCameraKit/Unity-QuestVisionKit \
+  --device-serial YOUR_QUEST_3S_SERIAL \
+  --output /absolute/path/evidence/PuppetTracking-Quest
+```
+
+`PuppetTracking-Quest.json` needs no puppet in view and no reachable signaling server: it only
+proves the scene starts cleanly and that `OnDeviceBlazePoseDetector` actually enters its detect
+loop (`onDeviceMode` changes away from `Idle`). A build where this silently stays `Idle` forever
+is the exact "works over Editor+Link, not in a real build" class of regression a manual headset
+session catches only by chance; the usual causes are the gitignored `Resources/Models/*.onnx`
+model assets missing from the build, IL2CPP stripping, or the backend failing to initialize on
+real Android/Vulkan. It does not prove WebRTC peer connectivity to a browser viewer.
+
+`quak-tests/PuppetTracking-Detection.json` additionally requires a puppet or person held in view
+of the passthrough camera (see the root README.md's "On-device pose experiment" section for
+distance/centering guidance) and proves `onDeviceMode` reaches `Tracking` with
+`onDeviceLastDetectionScore`/`onDeviceLastTrackingConfidence` above `OnDeviceBlazePoseDetector`'s
+configured thresholds. It does not prove the resulting skeleton looks visually correct or
+well-aligned; verify puppet/skeleton plausibility on the headset separately. Keep the JSON's
+expected threshold values in sync if `scoreThreshold`/`minTrackingConfidence` change in
+`OnDeviceBlazePoseDetector.cs`.

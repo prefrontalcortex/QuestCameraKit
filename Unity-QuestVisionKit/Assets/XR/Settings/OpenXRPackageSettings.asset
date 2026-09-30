@@ -266,7 +266,7 @@ MonoBehaviour:
     m_List: 00000000
   m_depthSubmissionMode: 0
   m_spacewarpMotionVectorTextureFormat: 0
-  m_optimizeBufferDiscards: 0
+  m_optimizeBufferDiscards: 1
   m_symmetricProjection: 0
   m_optimizeMultiviewRenderRegions: 0
   m_multiviewRenderRegionsOptimizationMode: 0
@@ -2387,7 +2387,7 @@ MonoBehaviour:
         description: QUAK controller injection layer for development testing
       m_JsonFileName: XrApiLayer_QUAK_injection.json
       m_LibraryArchitecture: 3
-      m_IsEnabled: 1
+      m_IsEnabled: 0
 --- !u!114 &2117131132967209344
 MonoBehaviour:
   m_ObjectHideFlags: 0
