@@ -56,14 +56,17 @@ namespace QuestCameraKit.WebRTC {
             return Functional.Sigmoid(Functional.Clamp(rawScores, -scoreThreshold, scoreThreshold));
         }
 
-        public static (FunctionalTensor, FunctionalTensor, FunctionalTensor) ArgMaxFiltering(FunctionalTensor rawBoxes, FunctionalTensor rawScores) {
+        // Scores every anchor (cheap: sigmoid + clamp) but selects none of them here, unlike the
+        // single-best-anchor ArgMax filtering this replaced. Picking only the single globally
+        // highest-scoring anchor per frame meant one anchor slightly outscoring the real subject
+        // (background clutter, a partially-occluded frame) silently threw the real candidate
+        // away with no fallback - a major source of the on-device detector's poor recall
+        // compared to MediaPipe's own multi-candidate approach. Returns the full (1, 2254, 1)
+        // scores and (1, 2254, 12) boxes so the caller can try several top candidates in turn
+        // (see OnDeviceBlazePoseDetector.DetectCandidates) instead of trusting a single guess.
+        public static (FunctionalTensor, FunctionalTensor) ScoreAllAnchors(FunctionalTensor rawBoxes, FunctionalTensor rawScores) {
             var detectionScores = ScoreFiltering(rawScores, 100f); // (1, 2254, 1)
-            var bestScoreIndex = Functional.ArgMax(rawScores, 1).Squeeze();
-
-            var selectedBoxes = Functional.IndexSelect(rawBoxes, 1, bestScoreIndex).Unsqueeze(0); // (1, 1, 16)
-            var selectedScores = Functional.IndexSelect(detectionScores, 1, bestScoreIndex).Unsqueeze(0); // (1, 1, 1)
-
-            return (bestScoreIndex, selectedScores, selectedBoxes);
+            return (detectionScores, rawBoxes); // (1, 2254, 1), (1, 2254, 12)
         }
 
         // image transform utility

@@ -25,18 +25,16 @@ namespace QuestCameraKit.WebRTC {
         // as visible jitter - a 1€ filter per landmark coordinate fixes that without adding the
         // fixed lag a plain low-pass filter would (see OneEuroFilter.cs for why).
         //
-        // The tracked subject here is a mannequin/puppet, not a live moving person - it doesn't
-        // move on its own, so beta (which relaxes smoothing when the filter senses real motion)
-        // has nothing genuine to relax for: any apparent "velocity" in a static prop's landmarks
-        // is just detection noise, not motion worth staying responsive to. Head movement is
-        // already handled separately and correctly by ray-casting through the current camera
-        // pose each frame (see ApplyPose) - a static prop should land at a stable world position
-        // regardless of where the headset is looking from, as long as the 2D detection itself is
-        // stable. So beta is tuned near zero and minCutoff low: prioritize a rock-steady pose
-        // over reacting quickly, since there's no real motion here to react to.
+        // Originally tuned assuming the puppet never moves on its own (beta near zero, so the
+        // filter never relaxes) - field testing showed it actually gets picked up and moved
+        // around during testing, and that heavy a smoothing setting visibly lags behind real
+        // motion instead of just rejecting noise. Raised beta so the filter relaxes and catches
+        // up during real movement, and minCutoff for better baseline responsiveness - some
+        // jitter returns when the puppet is held perfectly still, which is the correct trade-off
+        // once the subject actually moves.
         [SerializeField] private bool enableSmoothing = true;
-        [SerializeField] private float smoothingMinCutoff = 0.25f;
-        [SerializeField] private float smoothingBeta = 0.02f;
+        [SerializeField] private float smoothingMinCutoff = 1f;
+        [SerializeField] private float smoothingBeta = 0.3f;
         [SerializeField] private float smoothingDerivativeCutoff = 1f;
 
         // Standard MediaPipe BlazePose 33-landmark connection graph, matching
@@ -126,7 +124,19 @@ namespace QuestCameraKit.WebRTC {
         }
 
         private void BuildVisuals() {
-            var material = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { color = skeletonColor };
+            // Shader.Find is unsafe at runtime: IL2CPP/Android builds strip any shader that no
+            // Material asset statically references, and this one only ever got looked up here -
+            // it worked in the Editor (which never strips) and silently returned null on-device,
+            // throwing out of Awake() before _connectorRenderers/_jointSpheres were assigned and
+            // crashing the next ClearPose() call with a NullReferenceException. Also kept in
+            // GraphicsSettings' Always Included Shaders now, but fall back rather than crash if
+            // that ever regresses.
+            var shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
+            if (!shader) {
+                Debug.LogError("[PuppetPoseVisualizer] No skeleton shader available (stripped from build?); skeleton will not be drawn.");
+                return;
+            }
+            var material = new Material(shader) { color = skeletonColor };
 
             _connectorRenderers = new LineRenderer[Connections.Length];
             for (var i = 0; i < Connections.Length; i++) {
@@ -192,6 +202,7 @@ namespace QuestCameraKit.WebRTC {
         public void ApplyPose(Landmark[] landmarks, float referenceLengthCm) {
             if (landmarks == null || landmarks.Length != LandmarkCount) return;
             if (!cameraAccess || !cameraAccess.IsPlaying) return;
+            if (_connectorRenderers == null || _jointSpheres == null) return; // BuildVisuals failed (see there)
 
             if (enableSmoothing) {
                 var timestamp = Time.unscaledTime;
@@ -256,6 +267,8 @@ namespace QuestCameraKit.WebRTC {
         // resets the smoothing filters, so a fresh detection after a gap doesn't get pulled
         // toward wherever the pose was before it was lost.
         public void ClearPose() {
+            if (_connectorRenderers == null || _jointSpheres == null) return; // BuildVisuals failed (see there)
+
             foreach (var lr in _connectorRenderers) lr.enabled = false;
             foreach (var joint in _jointSpheres) joint.gameObject.SetActive(false);
 

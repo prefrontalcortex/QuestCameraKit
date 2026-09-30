@@ -35,7 +35,7 @@ namespace QuestCameraKit.WebRTC {
             var canvas = canvasGo.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
             var canvasRect = canvasGo.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = new Vector2(460, 210);
+            canvasRect.sizeDelta = new Vector2(460, 260);
             canvasGo.transform.localScale = Vector3.one * 0.001f;
             _hudTransform = canvasGo.transform;
 
@@ -97,7 +97,10 @@ namespace QuestCameraKit.WebRTC {
             }
 
             var onDeviceLine = onDeviceDetector && onDeviceDetector.enabled
-                ? $"\nOn-device: {onDeviceDetector.Mode} (det {onDeviceDetector.LastDetectionScore:F2}, track {onDeviceDetector.LastTrackingConfidence:F2})"
+                ? $"\nOn-device: {onDeviceDetector.Mode} (det {onDeviceDetector.LastDetectionScore:F2}, track {onDeviceDetector.LastTrackingConfidence:F2})" +
+                  $"\nRaw vis/pres 33/34: {onDeviceDetector.LastRawVisibility33:F2}/{onDeviceDetector.LastRawPresence33:F2} " +
+                  $"{onDeviceDetector.LastRawVisibility34:F2}/{onDeviceDetector.LastRawPresence34:F2}" +
+                  $"\nRef. length: {onDeviceDetector.ReferenceLengthCm:F1} cm (hold R trigger + right stick to adjust)"
                 : "";
 
             _statusText.text =
