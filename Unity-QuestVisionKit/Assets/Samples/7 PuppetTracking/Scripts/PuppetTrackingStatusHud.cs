@@ -1,5 +1,6 @@
 using Meta.XR;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace QuestCameraKit.WebRTC {
@@ -10,10 +11,12 @@ namespace QuestCameraKit.WebRTC {
         [SerializeField] private PassthroughCameraAccess cameraAccess;
         [SerializeField] private PassthroughWebRTCStreamer streamer;
         [SerializeField] private OnDeviceBlazePoseDetector onDeviceDetector;
+        [SerializeField] private PuppetPoseVisualizer visualizer;
         [SerializeField] private float refreshInterval = 0.25f;
 
         private Text _statusText;
         private Transform _hudTransform;
+        private GameObject _hudCanvasGo;
         private float _nextRefresh;
 
         private void Awake() {
@@ -26,6 +29,9 @@ namespace QuestCameraKit.WebRTC {
             if (!onDeviceDetector) {
                 onDeviceDetector = FindAnyObjectByType<OnDeviceBlazePoseDetector>(FindObjectsInactive.Include);
             }
+            if (!visualizer) {
+                visualizer = FindAnyObjectByType<PuppetPoseVisualizer>(FindObjectsInactive.Include);
+            }
 
             BuildHud();
         }
@@ -35,9 +41,10 @@ namespace QuestCameraKit.WebRTC {
             var canvas = canvasGo.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.WorldSpace;
             var canvasRect = canvasGo.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = new Vector2(460, 260);
+            canvasRect.sizeDelta = new Vector2(460, 320);
             canvasGo.transform.localScale = Vector3.one * 0.001f;
             _hudTransform = canvasGo.transform;
+            _hudCanvasGo = canvasGo;
 
             var background = new GameObject("Background");
             background.transform.SetParent(canvasGo.transform, false);
@@ -62,7 +69,19 @@ namespace QuestCameraKit.WebRTC {
             textRect.offsetMax = new Vector2(-16, -16);
         }
 
+        // Recording colleagues want this gone from the view for clean footage, so make it a
+        // single button press to hide/show rather than only reachable by disabling the
+        // component in the Editor (not possible once built into an APK). B is otherwise
+        // unused (Y/X/left stick are SampleMenu's scene-switcher, right trigger+stick is the
+        // on-device detector's reference-length calibration) - keyboard fallback for testing
+        // over Quest Link, matching SampleMenu's own M/arrows/Enter convention.
         private void Update() {
+            var keyboard = Keyboard.current;
+            if (OVRInput.GetDown(OVRInput.RawButton.B) || keyboard?.hKey.wasPressedThisFrame == true) {
+                _hudCanvasGo.SetActive(!_hudCanvasGo.activeSelf);
+            }
+            if (!_hudCanvasGo.activeSelf) return;
+
             var head = Camera.main;
             if (head) {
                 _hudTransform.position = head.transform.position + head.transform.forward * 0.6f - head.transform.up * 0.15f;
@@ -102,6 +121,9 @@ namespace QuestCameraKit.WebRTC {
                   $"{onDeviceDetector.LastRawVisibility34:F2}/{onDeviceDetector.LastRawPresence34:F2}" +
                   $"\nRef. length: {onDeviceDetector.ReferenceLengthCm:F1} cm (hold R trigger + right stick to adjust)"
                 : "";
+            var poseHoldLine = visualizer
+                ? $"\nPose hold: {visualizer.PoseHoldSeconds:F0}s (next sample in {visualizer.PoseHoldRemainingSeconds:F0}s, hold L trigger + left stick to adjust)"
+                : "";
 
             _statusText.text =
                 $"Passthrough camera: {cameraState}\n" +
@@ -109,6 +131,8 @@ namespace QuestCameraKit.WebRTC {
                 $"WebRTC peers: {peerState}\n" +
                 $"Video TX: {videoState}" +
                 onDeviceLine +
+                poseHoldLine +
+                "\nB / H: hide this HUD" +
                 (streamer && !string.IsNullOrEmpty(streamer.LastError) ? $"\n<error> {streamer.LastError}" : "");
         }
     }

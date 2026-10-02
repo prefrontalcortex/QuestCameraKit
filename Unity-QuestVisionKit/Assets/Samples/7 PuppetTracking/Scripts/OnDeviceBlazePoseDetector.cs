@@ -226,6 +226,17 @@ namespace QuestCameraKit.WebRTC {
                 return;
             }
 
+            // Captured now, alongside the texture - not after the detector/landmark model
+            // passes below, which each await a GPU readback and can span several frames.
+            // GetCameraPose() reflects whatever the latest camera frame's timestamp is *right
+            // now*, not the frame actually being processed here, so calling it later (as
+            // PuppetPoseVisualizer.ApplyPose used to) places this frame's landmarks using a
+            // head pose from several frames in the future - the placement error this produces
+            // grows with head movement during that gap, matching "right only by coincidence,
+            // wrong most of the time" on real hardware. ViewportPointToRay/WorldToViewportPoint
+            // both document exactly this cache-then-process pattern for that reason.
+            var capturedPose = cameraAccess.GetCameraPose();
+
             var width = texture.width;
             var height = texture.height;
             var wasTracking = _isTracking; // capture before any mutation below
@@ -288,7 +299,7 @@ namespace QuestCameraKit.WebRTC {
             // Only ever show a track once it has survived acquireConfirmFrames in a row - a
             // one-off spurious detection never reaches this and is never drawn at all.
             if (_confirmed) {
-                visualizer?.ApplyPose(_landmarks, ReferenceLengthCm);
+                visualizer?.ApplyPose(_landmarks, ReferenceLengthCm, capturedPose);
             } else {
                 visualizer?.ClearPose();
             }

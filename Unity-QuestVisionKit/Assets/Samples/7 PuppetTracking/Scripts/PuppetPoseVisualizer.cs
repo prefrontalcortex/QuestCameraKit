@@ -37,6 +37,33 @@ namespace QuestCameraKit.WebRTC {
         [SerializeField] private float smoothingBeta = 0.3f;
         [SerializeField] private float smoothingDerivativeCutoff = 1f;
 
+        // The 1€ filter above still lets a perfectly static subject (a mannequin that is never
+        // actually moving) visibly jitter, since it smooths noise rather than rejecting it
+        // outright - raising its beta to catch up with real movement (see above) made this
+        // worse, not better. Realization from first real-device feedback: a static subject's
+        // pose only needs to be *determined* once, not every frame - so instead of a small
+        // per-frame distance deadband, place the skeleton in world space once and then hold
+        // every joint there outright, skipping re-placement entirely until this many seconds
+        // have passed. Default/fallback only; PoseHoldSeconds below is the live value,
+        // adjustable on-device (left trigger + left thumbstick) for the same reason
+        // ReferenceLengthCm is in OnDeviceBlazePoseDetector: how static the subject really is
+        // (and how much that's worth trading off against) varies by session. Trade-off: real
+        // movement during the hold window (someone picking the puppet up) isn't reflected
+        // until the window ends - acceptable, even desirable, for a mostly-static training
+        // mannequin; set to 0 to disable and re-place every frame instead.
+        [SerializeField] private bool enablePoseHold = true;
+        [SerializeField] private float poseHoldSeconds = 10f;
+        private const string PoseHoldPrefsKey = "QuestCameraKit.PuppetTracking.PoseHoldSeconds";
+        private const float PoseHoldMinSeconds = 0f;
+        private const float PoseHoldMaxSeconds = 30f;
+        private const float PoseHoldAdjustSecondsPerSecond = 5f;
+        private const float PoseHoldAxisDeadzone = 0.15f;
+
+        public float PoseHoldSeconds { get; private set; }
+        public float PoseHoldRemainingSeconds => Mathf.Max(0f, _nextPoseSampleTime - Time.unscaledTime);
+
+        private float _nextPoseSampleTime;
+
         // Standard MediaPipe BlazePose 33-landmark connection graph, matching
         // PoseLandmarker.POSE_CONNECTIONS on the browser side exactly (extracted from
         // @mediapipe/tasks-vision) so both ends draw the same skeleton topology.
@@ -106,7 +133,25 @@ namespace QuestCameraKit.WebRTC {
             }
             _smoothedLandmarks = new Landmark[LandmarkCount];
 
+            PoseHoldSeconds = PlayerPrefs.HasKey(PoseHoldPrefsKey)
+                ? PlayerPrefs.GetFloat(PoseHoldPrefsKey)
+                : poseHoldSeconds;
+
             BuildVisuals();
+        }
+
+        // Mirrors OnDeviceBlazePoseDetector's own reference-length adjustment, but on the left
+        // hand/trigger so both can be held independently of each other. Runs every frame
+        // regardless of whether a pose is currently being applied, so it stays responsive.
+        private void AdjustPoseHold() {
+            if (!OVRInput.Get(OVRInput.RawButton.LIndexTrigger)) return;
+            var axis = OVRInput.Get(OVRInput.RawAxis2D.LThumbstick).y;
+            if (Mathf.Abs(axis) < PoseHoldAxisDeadzone) return;
+
+            PoseHoldSeconds = Mathf.Clamp(
+                PoseHoldSeconds + axis * PoseHoldAdjustSecondsPerSecond * Time.deltaTime,
+                PoseHoldMinSeconds, PoseHoldMaxSeconds);
+            PlayerPrefs.SetFloat(PoseHoldPrefsKey, PoseHoldSeconds);
         }
 
         private void OnDestroy() {
@@ -165,6 +210,8 @@ namespace QuestCameraKit.WebRTC {
         }
 
         private void Update() {
+            AdjustPoseHold();
+
             string payload = null;
             lock (_queueLock) {
                 // Only the latest message matters for a live overlay - drop anything stale
@@ -199,10 +246,21 @@ namespace QuestCameraKit.WebRTC {
         // viewport convention (see the Landmark struct). Called both from the WebRTC data
         // channel path above (after converting from MediaPipe's convention) and directly by
         // an on-device pose detector, if one is present.
-        public void ApplyPose(Landmark[] landmarks, float referenceLengthCm) {
+        //
+        // cachedCameraPose should be captured by the caller at the same moment the landmarks'
+        // source texture was grabbed, not derived fresh in here - GetCameraPose() reflects
+        // whatever the latest camera frame's timestamp is *right now*, which by the time this
+        // runs (after however long detection/the data channel round-trip took) is no longer
+        // the frame these landmarks came from. Falls back to a fresh pose only for the WebRTC
+        // path above, which has no local frame-timestamp to cache against in the first place.
+        public void ApplyPose(Landmark[] landmarks, float referenceLengthCm, Pose? cachedCameraPose = null) {
             if (landmarks == null || landmarks.Length != LandmarkCount) return;
             if (!cameraAccess || !cameraAccess.IsPlaying) return;
             if (_connectorRenderers == null || _jointSpheres == null) return; // BuildVisuals failed (see there)
+
+            // Still "holding" the last placement - leave the currently displayed skeleton
+            // exactly where it is rather than re-deriving it from this frame's (noisy) input.
+            if (enablePoseHold && Time.unscaledTime < _nextPoseSampleTime) return;
 
             if (enableSmoothing) {
                 var timestamp = Time.unscaledTime;
@@ -217,7 +275,7 @@ namespace QuestCameraKit.WebRTC {
                 landmarks = _smoothedLandmarks;
             }
 
-            var camPose = cameraAccess.GetCameraPose();
+            var camPose = cachedCameraPose ?? cameraAccess.GetCameraPose();
 
             var shoulderMid = Average(landmarks[LeftShoulder], landmarks[RightShoulder]);
             var hipMid = Average(landmarks[LeftHip], landmarks[RightHip]);
@@ -261,6 +319,10 @@ namespace QuestCameraKit.WebRTC {
                     _jointSpheres[i].position = worldPositions[i];
                 }
             }
+
+            if (enablePoseHold) {
+                _nextPoseSampleTime = Time.unscaledTime + PoseHoldSeconds;
+            }
         }
 
         // Hides the whole skeleton - e.g. when an on-device detector loses tracking. Also
@@ -274,6 +336,10 @@ namespace QuestCameraKit.WebRTC {
 
             foreach (var filter in _xFilters) filter.Reset();
             foreach (var filter in _yFilters) filter.Reset();
+
+            // A fresh acquisition after a real gap must be placed immediately, not wait out
+            // whatever hold window was still running before tracking was lost.
+            _nextPoseSampleTime = 0f;
         }
 
         private static Landmark Average(Landmark a, Landmark b) {

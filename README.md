@@ -164,15 +164,31 @@ problem, not raw framerate. Findings so far, roughly in the order we found them:
   about subject scale anymore, but also basic recall of the single-highest-anchor argmax
   detector versus a real NMS/multi-candidate approach. Not yet attempted.
 - Skeleton *jitter* (once detected) is a separate axis from detection *reliability* -
-  addressed with a 1€ filter per landmark (`PuppetPoseVisualizer`, see `OneEuroFilter.cs`),
-  tuned toward heavy, non-adaptive smoothing since the tracked subjects here (mannequins) do
-  not move on their own - any apparent velocity in the raw signal is detection noise, not
-  real motion worth staying responsive to.
+  addressed with a 1€ filter per landmark (`PuppetPoseVisualizer`, see `OneEuroFilter.cs`).
+  First-real-device feedback (puppet "Detlef" held still in frame) showed the filter alone
+  still lets a genuinely static subject visibly jitter, since it smooths noise rather than
+  rejecting it outright - and a static subject's pose only needs to be *determined* once in
+  the first place. `PuppetPoseVisualizer` now places the skeleton once and then holds every
+  joint exactly there in world space, skipping re-placement entirely for
+  `PoseHoldSeconds` (default 10s) - live-adjustable on-device (hold left trigger + left
+  thumbstick), same reasoning as `ReferenceLengthCm` below. Set to 0 to go back to
+  re-placing every frame.
+- Placement being wrong more often than right (not just jittery) traced to
+  `PuppetPoseVisualizer.ApplyPose` calling `PassthroughCameraAccess.GetCameraPose()` itself,
+  fresh, instead of using the pose from when the landmarks' source texture was actually
+  grabbed. `GetCameraPose()` reflects whatever the latest camera frame's timestamp is *right
+  now*; the detector/landmark model passes in between each await a GPU readback and can span
+  several frames, so by the time `ApplyPose` ran, the head had often moved on - placement was
+  only ever right by coincidence (little head movement in that gap). Fixed by having
+  `OnDeviceBlazePoseDetector` capture the pose once, alongside the texture, before any of
+  that async work, and pass it through to `ApplyPose` instead - exactly the cache-then-process
+  pattern `PassthroughCameraAccess.ViewportPointToRay`'s own doc comment already describes.
 - `PuppetTrackingStatusHud` now shows the on-device detector's live state (`Mode`:
   Detecting/Tracking, last detection score, last tracking confidence) in-headset, since
   "sometimes visible, sometimes not" was otherwise impossible to debug further - failing to
   ever detect and losing an acquired track too eagerly look identical from the outside but
-  need different fixes.
+  need different fixes. Toggle it on/off with the B button (or H on keyboard over Quest
+  Link) for clean recordings without it covering the shot.
 - Not yet tested: a full-size mannequin (the actual target hardware for this prototype,
   distinct from the small hand-held test dummies) - plausibly closer to BlazePose's training
   distribution at a normal viewing distance, which would make the remaining detector-recall
